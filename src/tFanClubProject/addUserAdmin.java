@@ -37,7 +37,7 @@ public class addUserAdmin extends JFrame {
 
 	// For the confirm button to know which method and SQL statement to run  
 	int whichPanel = 1;
-
+	int justForFun =1;
 	
 	private JPanel contentPane;
 	private JTextField textFieldUsernameAdd;
