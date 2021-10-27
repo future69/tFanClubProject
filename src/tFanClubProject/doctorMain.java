@@ -38,8 +38,6 @@ public class doctorMain extends JFrame {
 		
 	}
 	
-	private JTextField textFieldPres;
-	
 
 	/**
 	 * Create the frame.
@@ -48,64 +46,43 @@ public class doctorMain extends JFrame {
 		
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 445, 319);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		textFieldPname = new JTextField();
-		textFieldPname.setBounds(199, 87, 116, 20);
+		textFieldPname.setFont(new Font("Courier New", Font.ITALIC, 11));
+		textFieldPname.setText("Patient's Name");
+		textFieldPname.setBounds(128, 150, 143, 20);
 		contentPane.add(textFieldPname);
 		textFieldPname.setColumns(10);
 		
 		JLabel lblheader = new JLabel("Doctor");
-		lblheader.setBounds(70, 30, 79, 20);
-		lblheader.setFont(new Font("Verdana", Font.PLAIN, 18));
+		lblheader.setBounds(10, 29, 99, 52);
+		lblheader.setFont(new Font("Verdana", Font.BOLD, 24));
 		contentPane.add(lblheader);
 		
 		JLabel lblPname = new JLabel("Search :");
-		lblPname.setBounds(147, 90, 79, 14);
+		lblPname.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPname.setBounds(47, 141, 79, 30);
 		contentPane.add(lblPname);
-		
-		JLabel lblPrescription = new JLabel("Search Prescriptions:");
-		lblPrescription.setBounds(70, 131, 200, 15);
-		contentPane.add(lblPrescription);
 		
 		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(320, 86, 89, 20);
+		btnSearch.setBounds(281, 150, 70, 21);
 		contentPane.add(btnSearch);
 		
-		JButton btnSearch2 = new JButton("Search");
-		btnSearch2.setBounds(320, 128, 89, 20);
-		contentPane.add(btnSearch2);
-		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(320, 40, 89, 30);
+		btnLogout.setBounds(320, 29, 89, 30);
 		contentPane.add(btnLogout);
-		
-		textFieldPres = new JTextField();
-		textFieldPres.setBounds(199, 128, 116, 20);
-		contentPane.add(textFieldPres);
-		textFieldPres.setColumns(10);
 		
 		JLabel lblProblem = new JLabel("");
 		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblProblem.setForeground(Color.RED);
 		lblProblem.setBounds(110, 60, 205, 35);
 		contentPane.add(lblProblem);
-		
-	
-		btnSearch2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String prescriptions = textFieldPres.getText();
-				if (textFieldPres.getText().isEmpty()) {
-					lblProblem.setText("Please enter Prescription Name");
-				}
-			}
-		});
 		
 		
 		btnSearch.addActionListener(new ActionListener() {
