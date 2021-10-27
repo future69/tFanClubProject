@@ -12,11 +12,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JSplitPane;
+import javax.swing.table.DefaultTableModel;
 
 public class viewPrescriptionList extends JFrame {
 
 	private JPanel contentPane;
-	private JTable prescriptionTable;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -52,6 +55,7 @@ public class viewPrescriptionList extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(new MigLayout("", "[55px,grow][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][]"));
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -65,10 +69,20 @@ public class viewPrescriptionList extends JFrame {
 			}
 		});
 		
-		prescriptionTable = new JTable();
-		prescriptionTable.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		contentPane.add(prescriptionTable);
-		contentPane.add(btnBack);
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Prescription ID", "Prescribed date", ""
+			}
+		));
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(114);
+		contentPane.add(table, "flowy,cell 5 2 1 3,grow");
+		contentPane.add(btnBack, "cell 16 9,alignx left,aligny top");
 	}
 
 }
