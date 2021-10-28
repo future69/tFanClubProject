@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -55,7 +56,20 @@ public class viewPrescriptionList extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[55px,grow][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[55px,grow][][][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][][]"));
+		
+		String [][] data = {
+				{null, null, null},
+				{null, null, null}
+				};
+		String [] columnNames = {"Prescription ID", "Prescribed date", ""};
+		table = new JTable(data, columnNames);
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(114);
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		contentPane.add (scrollPane, "flowx,cell 1 7");
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -68,21 +82,7 @@ public class viewPrescriptionList extends JFrame {
 				dispose();
 			}
 		});
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-			},
-			new String[] {
-				"Prescription ID", "Prescribed date", ""
-			}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(114);
-		contentPane.add(table, "flowy,cell 5 2 1 3,grow");
-		contentPane.add(btnBack, "cell 16 9,alignx left,aligny top");
+		contentPane.add(btnBack, "cell 16 8,alignx left,aligny top");
 	}
 
 }
