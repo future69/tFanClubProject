@@ -84,7 +84,6 @@ public class homePagePatient extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame viewprespage = new viewPrescriptionList(username);
-				
 				viewprespage.setVisible(true);
 				dispose();
 			}

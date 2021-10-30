@@ -21,6 +21,7 @@ public class viewPrescriptionList extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -58,18 +59,25 @@ public class viewPrescriptionList extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[55px,grow][][][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][][]"));
 		
-		String [][] data = {
-				{null, null, null},
-				{null, null, null}
-				};
+		viewPrescriptionListController vPLC = new viewPrescriptionListController(); 
+		
+
+
 		String [] columnNames = {"Prescription ID", "Prescribed date", ""};
-		table = new JTable(data, columnNames);
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(114);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		contentPane.add (scrollPane, "flowx,cell 1 7");
+		String [][] data = vPLC.getPrescriptions(accountUsername);
+		for (int i = 0; i < 2; i++)
+		{
+			for (int k = 0; k < 1; i++)
+			{
+				System.out.println(data[i][k]);
+			}
+		}
+//		table = new JTable(vPLC.getPrescriptions(accountUsername), columnNames);
+//		
+//		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(114);;
+//		JScrollPane scrollPane = new JScrollPane(table);
+//		contentPane.add (scrollPane, "flowx,cell 1 7");
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -82,7 +90,20 @@ public class viewPrescriptionList extends JFrame {
 				dispose();
 			}
 		});
+		
+		btnNewButton = new JButton("Test");
+		contentPane.add(btnNewButton, "cell 16 7,aligny top");
 		contentPane.add(btnBack, "cell 16 8,alignx left,aligny top");
+		btnNewButton.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				vPLC.getPrescriptions(accountUsername);
+			}
+			
+		});
 	}
-
 }
+	
+
+
