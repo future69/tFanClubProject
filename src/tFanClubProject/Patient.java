@@ -83,8 +83,8 @@ public class Patient
 	public String [][] getPres(int patientID)
 	{
 		int counter = getCountPres(patientID);
-		String [][] presList= new String[counter][2];
-		counter = 1; // reset to use to store data in 2Darray
+		String [][] presList= new String [counter][3];
+		counter = 0; // reset to use to store data in 2Darray
 		try 
 		{
 			connection = dbConnector();
@@ -97,8 +97,8 @@ public class Patient
 			{
 				String presNum = String.valueOf(rs.getInt("presNum"));
 				String presStatus = rs.getString("presStatus");
-				presList [counter-1][0] = presNum;
-				presList [counter-1][1] = presStatus;
+				presList [counter][0] = presNum;
+				presList [counter][1] = presStatus;
 				counter += 1;
 				System.out.println("presNum:"+ presNum +"  pressStatus" + presStatus);
 			}

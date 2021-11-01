@@ -63,21 +63,15 @@ public class viewPrescriptionList extends JFrame {
 		
 
 
-		String [] columnNames = {"Prescription ID", "Prescribed date", ""};
+		String [] columnNames = {"Prescription ID", "Prescribed date"};
 		String [][] data = vPLC.getPrescriptions(accountUsername);
-		for (int i = 0; i < 2; i++)
-		{
-			for (int k = 0; k < 1; i++)
-			{
-				System.out.println(data[i][k]);
-			}
-		}
-//		table = new JTable(vPLC.getPrescriptions(accountUsername), columnNames);
-//		
-//		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(114);;
-//		JScrollPane scrollPane = new JScrollPane(table);
-//		contentPane.add (scrollPane, "flowx,cell 1 7");
+		System.out.println(data[1][1]);
+		table = new JTable(data, columnNames);
+				
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(114);;
+		JScrollPane scrollPane = new JScrollPane(table);
+		contentPane.add (scrollPane, "flowx,cell 1 7");
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setHorizontalAlignment(SwingConstants.RIGHT);
