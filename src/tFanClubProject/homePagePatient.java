@@ -49,8 +49,8 @@ public class homePagePatient extends JFrame {
 		contentPane.setLayout(new MigLayout("", "[][][][][][114px][10px][153px][][][][][127px][][][]", "[35px][23px][23px][][][][][][][]"));
 		
 		//Set username to Jlabel
-		homePageAdminController adminController = new homePageAdminController();
-		String fullName = adminController.passAdminHomepageInfo(username);
+		homePagePatientController patientController = new homePagePatientController();
+		String fullName = patientController.passPatientHomepageInfo(username);
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {

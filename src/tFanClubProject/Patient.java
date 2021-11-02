@@ -88,7 +88,7 @@ public class Patient
 		try 
 		{
 			connection = dbConnector();
-			String query = "SELECT presNum, presStatus FROM Prescription WHERE PatientID = ?";
+			String query = "SELECT presNum, prescribedDate, presStatus FROM Prescription WHERE PatientID = ?";
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			//This gets the values back one by one from the database
@@ -96,11 +96,12 @@ public class Patient
 			while(rspres.next()) 
 			{
 				String presNum = String.valueOf(rspres.getInt("presNum"));
+				String presDate = String.valueOf(rspres.getDate("prescribedDate"));
 				String presStatus = rspres.getString("presStatus");
 				presList [counter][0] = presNum;
-				presList [counter][1] = presStatus;
+				presList [counter][1] = presDate;
+				presList [counter][2] = presStatus;
 				counter += 1;
-				System.out.println("presNum:"+ presNum +"  pressStatus" + presStatus);
 			}
 			connection.close();
 			rspres.close();
