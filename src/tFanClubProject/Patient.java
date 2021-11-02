@@ -65,13 +65,13 @@ public class Patient
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			//This gets the values back one by one from the database
-			ResultSet rs = pst.executeQuery();
-			while(rs.next()) 
+			ResultSet rscount = pst.executeQuery();
+			while(rscount.next()) 
 			{
 				counter = counter + 1;
 			}
 			connection.close();
-			rs.close();
+			rscount.close();
 			return counter;
 		}
 		catch(Exception f) 
@@ -92,18 +92,18 @@ public class Patient
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			//This gets the values back one by one from the database
-			ResultSet rs = pst.executeQuery();
-			while(rs.next()) 
+			ResultSet rspres = pst.executeQuery();
+			while(rspres.next()) 
 			{
-				String presNum = String.valueOf(rs.getInt("presNum"));
-				String presStatus = rs.getString("presStatus");
+				String presNum = String.valueOf(rspres.getInt("presNum"));
+				String presStatus = rspres.getString("presStatus");
 				presList [counter][0] = presNum;
 				presList [counter][1] = presStatus;
 				counter += 1;
 				System.out.println("presNum:"+ presNum +"  pressStatus" + presStatus);
 			}
 			connection.close();
-			rs.close();
+			rspres.close();
 			return presList;
 		}
 		catch(Exception f) 
