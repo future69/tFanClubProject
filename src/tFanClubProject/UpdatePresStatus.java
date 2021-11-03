@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 
-public class ViewPresPharmacist extends JFrame {
+public class UpdatePresStatus extends JFrame {
 	
 	/*Connection code*/
 	Connection connection = null;
@@ -46,8 +46,7 @@ public class ViewPresPharmacist extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String SearchPres = null;
-					ViewPresPharmacist frame = new ViewPresPharmacist(SearchPres);
+					UpdatePresStatus frame = new UpdatePresStatus();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +61,7 @@ public class ViewPresPharmacist extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewPresPharmacist(String SearchPres) 
+	public UpdatePresStatus() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 646, 376);
@@ -71,36 +70,6 @@ public class ViewPresPharmacist extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[][][][][][114px][10px][153px][][][][][127px][][][]", "[35px][23px][23px][][][][][][][]"));
 				
-		viewPresPharmacistController vPPC = new viewPresPharmacistController(); 
-
-		String [] columnNames = {"Prescription ID", "Medication Name", "Dosage"};
-		String [][] data = vPPC.getPrescriptions(SearchPres);;
-		
-		table = new JTable(data, columnNames);
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		contentPane.add (scrollPane, "flowx,cell 9 10");
-		
-		
-		JButton btnUpdateStatus = new JButton("Update Status");
-		btnUpdateStatus.setBounds(350, 87, 150, 20);
-		btnUpdateStatus.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{				
-				
-				
-					JFrame UpdatePresStatus = new UpdatePresStatus();
-					UpdatePresStatus.setVisible(true);
-					dispose();
-				
-			}
-		});
-		contentPane.add(btnUpdateStatus);
-		
 	}
 		
 	
