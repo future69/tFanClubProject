@@ -295,10 +295,327 @@ public class Admin {
 		pst.setString(3, role);
 
 		pst.executeUpdate();
+		pst.close();
 		} 
 		catch(Exception f){
 			JOptionPane.showMessageDialog(null, f);
 		}
 	}
 
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	//Methods regarding updating of user are below
+	
+	//Only retrieves info according to username from userinfo and admin table
+	public String[] retrieveAdminInfo (String username) {
+		String adminData[] = new String[3];
+		try {
+			connection = dbConnector();
+			String query = "SELECT password FROM userInfo where username=?";
+			String query2 = "SELECT adminFName , adminLName FROM Admin where username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst.setString(1, username);
+			pst2.setString(1, username);
+			//This gets the values back one by one from the database
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				adminData[0] = rs.getString("password");
+			}
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				adminData[1] = rs2.getString("adminFName");
+				adminData[2] = rs2.getString("adminLName");
+			}
+			
+			if (adminData[1] == null || adminData[2] == null) {
+				return null;
+			}	
+			
+			else {
+				return adminData;
+			}
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Updates admin and userinfo database
+	public boolean updateAdminAcc (String username, char[] password, String FName, String LName) {
+		try {
+		connection = dbConnector();
+		String pass = String.valueOf(password);
+		
+		//Updates data in userInfo
+		String query = "UPDATE userInfo SET password=? WHERE username=?";
+		//Updates data in Admin
+		String query2 = "UPDATE Admin SET adminFName=? , adminLName =? WHERE username=?";
+		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst2 = connection.prepareStatement(query2);
+
+		pst.setString(1, pass);
+		pst.setString(2, username);
+		pst.executeUpdate();
+		pst.close();
+		
+		pst2.setString(1, FName);
+		pst2.setString(2, LName);
+		pst2.setString(3, username);
+		pst2.executeUpdate();
+		pst2.close();
+		
+		return true;
+		} 
+		catch(Exception f){
+			JOptionPane.showMessageDialog(null, f);
+			return false;
+		}
+	}
+	
+	//Get doctor info
+	public String[] retrieveDoctorInfo (String username) {
+		String doctorInfo[] = new String[5];
+		try {
+			connection = dbConnector();
+			String query = "SELECT password FROM userInfo where username=?";
+			String query2 = "SELECT doctorFName , doctorLName, patientID FROM Doctor where username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst.setString(1, username);
+			pst2.setString(1, username);
+			//This gets the values back one by one from the database
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				doctorInfo[0] = rs.getString("password");
+			}
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				doctorInfo[1] = rs2.getString("doctorFName");
+				doctorInfo[2] = rs2.getString("doctorLName");
+				doctorInfo[3] = rs2.getString("patientID");
+			}
+			
+			if (doctorInfo[1] == null || doctorInfo[2] == null || doctorInfo[3] == null) {
+				return null;
+			}	
+			
+			else {
+				return doctorInfo;
+			}
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Update doctor info
+	public boolean updateDoctorAcc(String username, char[] password, String FName, String LName, int patientID) {
+		try {
+			connection = dbConnector();
+			String pass = String.valueOf(password);
+			
+			//Updates data in userInfo
+			String query = "UPDATE userInfo SET password=? WHERE username=?";
+			//Updates data in Admin
+			String query2 = "UPDATE Doctor SET doctorFName=? , doctorLName=? , patientID=? WHERE username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+
+			pst.setString(1, pass);
+			pst.setString(2, username);
+			pst.executeUpdate();
+			pst.close();
+			
+			pst2.setString(1, FName);
+			pst2.setString(2, LName);
+			pst2.setInt(3, patientID);
+			pst2.setString(4, username);
+			pst2.executeUpdate();
+			pst2.close();
+			
+			return true;
+			} 
+			catch(Exception f){
+				JOptionPane.showMessageDialog(null, f);
+				return false;
+			}
+	}
+	
+	
+	//Get patient info
+	public String[] retrievePatientInfo (String username) {
+		String patientInfo[] = new String[5];
+		try {
+			connection = dbConnector();
+			String query = "SELECT password FROM userInfo where username=?";
+			String query2 = "SELECT patientFName , patientLName, patientDOB, patientEmail FROM Patient where username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst.setString(1, username);
+			pst2.setString(1, username);
+			//This gets the values back one by one from the database
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				patientInfo[0] = rs.getString("password");
+			}
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				patientInfo[1] = rs2.getString("patientFName");
+				patientInfo[2] = rs2.getString("patientLName");
+				patientInfo[3] = rs2.getString("patientDOB");
+				patientInfo[4] = rs2.getString("patientEmail");
+			}
+			
+			if (patientInfo[1] == null || patientInfo[2] == null || patientInfo[3] == null || patientInfo[4] == null) {
+				return null;
+			}	
+			
+			else {
+				return patientInfo;
+			}
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Update patient info
+	public boolean updatePatientAcc(String username, char[] password, String FName, String LName, String dob, String email) {
+		try {
+			connection = dbConnector();
+			String pass = String.valueOf(password);
+			
+			//Updates data in userInfo
+			String query = "UPDATE userInfo SET password=? WHERE username=?";
+			//Updates data in Admin
+			String query2 = "UPDATE Patient SET patientFName=? , patientLName=? , patientDOB=? , patientEmail=? WHERE username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+
+			pst.setString(1, pass);
+			pst.setString(2, username);
+			pst.executeUpdate();
+			pst.close();
+			
+			pst2.setString(1, FName);
+			pst2.setString(2, LName);
+			pst2.setString(3, dob);
+			pst2.setString(4, email);
+			pst2.setString(5, username);
+			pst2.executeUpdate();
+			pst2.close();
+			
+			return true;
+			} 
+			catch(Exception f){
+				JOptionPane.showMessageDialog(null, f);
+				return false;
+			}
+	}
+	
+	//Get pharmacist info
+	public String[] retrievePharmacistInfo (String username) {
+		String pharmacistInfo[] = new String[3];
+		try {
+			connection = dbConnector();
+			String query = "SELECT password FROM userInfo where username=?";
+			String query2 = "SELECT pharmaName , pharmaAdd FROM Pharmacist where username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst.setString(1, username);
+			pst2.setString(1, username);
+			//This gets the values back one by one from the database
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				pharmacistInfo[0] = rs.getString("password");
+			}
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				pharmacistInfo[1] = rs2.getString("pharmaName");
+				pharmacistInfo[2] = rs2.getString("pharmaAdd");
+			}
+			
+			if (pharmacistInfo[1] == null || pharmacistInfo[2] == null) {
+				return null;
+			}	
+			
+			else {
+				return pharmacistInfo;
+			}
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Update pharmacist info
+	public boolean updatePharmacistAcc(String username, char[] password, String pharmaName, String pharmaAdd) {
+		try {
+			connection = dbConnector();
+			String pass = String.valueOf(password);
+			
+			//Updates data in userInfo
+			String query = "UPDATE userInfo SET password=? WHERE username=?";
+			//Updates data in Admin
+			String query2 = "UPDATE Pharmacist SET pharmaName=? , pharmaAdd=? WHERE username=?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+
+			pst.setString(1, pass);
+			pst.setString(2, username);
+			pst.executeUpdate();
+			pst.close();
+			
+			pst2.setString(1, pharmaName);
+			pst2.setString(2, pharmaAdd);
+			pst2.setString(3, username);
+			pst2.executeUpdate();
+			pst2.close();
+			
+			return true;
+			} 
+			catch(Exception f){
+				JOptionPane.showMessageDialog(null, f);
+				return false;
+			}
+	}
+	
 }
