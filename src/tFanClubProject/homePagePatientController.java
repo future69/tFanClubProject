@@ -1,10 +1,12 @@
 package tFanClubProject;
 
-public class homePagePatientController {
+public class homePagePatientController 
+{
 
 	UserInfo user = new UserInfo();
 
-	public String passAdminHomepageInfo (String fullname) {
+	public String passPatientHomepageInfo (String fullname) 
+	{
 		
 		String result = null;
 		
