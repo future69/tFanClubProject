@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class homePageAdmin extends JFrame {
 
@@ -43,11 +44,10 @@ public class homePageAdmin extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new MigLayout("", "[262px][89px]", "[35px][23px]"));
 		
 		JLabel lblWelcome = new JLabel("New label");
-		lblWelcome.setBounds(10, 5, 262, 35);
-		contentPane.add(lblWelcome);
+		contentPane.add(lblWelcome, "cell 0 0,grow");
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
@@ -58,8 +58,7 @@ public class homePageAdmin extends JFrame {
 				dispose();
 			}
 		});
-		btnLogout.setBounds(335, 11, 89, 23);
-		contentPane.add(btnLogout);
+		contentPane.add(btnLogout, "cell 1 0,growx,aligny center");
 		
 		//Set username to Jlabel
 		homePageAdminController adminController = new homePageAdminController();
@@ -67,7 +66,7 @@ public class homePageAdmin extends JFrame {
 		lblWelcome.setText("Welcome Admin, " + fullName);
 		
 		//Goes to add user page
-		JButton btnAddUser = new JButton("Add User");
+		JButton btnAddUser = new JButton("Add/Update");
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame adduserpage = new addUserAdmin(username);
@@ -76,8 +75,7 @@ public class homePageAdmin extends JFrame {
 				dispose();
 			}
 		});
-		btnAddUser.setBounds(10, 51, 89, 23);
-		contentPane.add(btnAddUser);
+		contentPane.add(btnAddUser, "cell 0 1,alignx left,aligny top");
 		
 		
 		
