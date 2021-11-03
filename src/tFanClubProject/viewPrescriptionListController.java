@@ -14,12 +14,7 @@ public class viewPrescriptionListController
 
 	public String passPatientHomepageInfo (String username) 
 	{
-		
-		String result = null;
-		
-		result  = user.getHomepageInfo(username);
-		
-		return result;
+		return user.getHomepageInfo(username);
 	}
 	
 }

@@ -106,7 +106,40 @@ public class Patient
 			connection.close();
 			rspres.close();
 			return presList;
+		}  
+		catch(Exception f) 
+		{
+			JOptionPane.showMessageDialog(null, f);
+			return presList;
 		}
+	}
+	public String [][] getPrescription(int patientID)
+	{
+		int counter = getCountPres(patientID);
+		String [][] presList= new String [counter][3];
+		counter = 0; // reset to use to store data in 2Darray
+		try 
+		{
+			connection = dbConnector();
+			String query = "SELECT presNum, prescribedDate, presStatus FROM Prescription WHERE PatientID = ?";
+			PreparedStatement pst = connection.prepareStatement(query);
+			pst.setInt(1, patientID);
+			//This gets the values back one by one from the database
+			ResultSet rspres = pst.executeQuery();
+			while(rspres.next()) 
+			{
+				String presNum = String.valueOf(rspres.getInt("presNum"));
+				String presDate = String.valueOf(rspres.getDate("prescribedDate"));
+				String presStatus = rspres.getString("presStatus");
+				presList [counter][0] = presNum;
+				presList [counter][1] = presDate;
+				presList [counter][2] = presStatus;
+				counter += 1;
+			}
+			connection.close();
+			rspres.close();
+			return presList;
+		}  
 		catch(Exception f) 
 		{
 			JOptionPane.showMessageDialog(null, f);
