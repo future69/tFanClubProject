@@ -1,6 +1,6 @@
 package tFanClubProject;
 
-public class viewPrescriptionListController
+public class viewPresPharmacistController
 {
 	public String [][] getPrescriptions(String accountUsername)
 	{
@@ -14,7 +14,12 @@ public class viewPrescriptionListController
 
 	public String passPatientHomepageInfo (String username) 
 	{
-		return user.getHomepageInfo(username);
+		
+		String result = null;
+		
+		result  = user.getHomepageInfo(username);
+		
+		return result;
 	}
 	
 }
