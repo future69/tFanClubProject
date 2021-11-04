@@ -93,7 +93,7 @@ public class LoginPage extends JFrame {
 					if(role != null){
 						switch(role) {
 						case "Admin":
-							JFrame homePageAdmin = new doctorMain(username);
+							JFrame homePageAdmin = new homePageAdmin(username);
 							homePageAdmin.setVisible(true);
 							dispose();
 						case "Doctor":
