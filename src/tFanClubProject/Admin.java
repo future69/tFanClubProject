@@ -26,7 +26,6 @@ public class Admin {
 			JOptionPane.showMessageDialog(null, e);
 			return null;
 		}
-		
 	}
 	
 	//Verify existing record
@@ -618,4 +617,118 @@ public class Admin {
 			}
 	}
 	
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	//Methods regarding searching of users are below
+	
+	//Get admin username
+	public String getAdminUsername (int userID) {
+		String username = null;
+		try {
+			connection = dbConnector();
+			String query2 = "SELECT username FROM Admin where adminID=?";
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst2.setInt(1, userID);
+			//This gets the values back one by one from the database
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				username = rs2.getString("username");
+			}
+			return username;
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Get doctor username
+	public String getDoctorUsername (int userID) {
+		String username = null;
+		try {
+			connection = dbConnector();
+			String query2 = "SELECT username FROM Doctor where doctorID=?";
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst2.setInt(1, userID);
+			//This gets the values back one by one from the database
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				username = rs2.getString("username");
+			}
+			return username;
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Get patient username
+	public String getPatientUsername (int userID) {
+		String username = null;
+		try {
+			connection = dbConnector();
+			String query2 = "SELECT username FROM Patient where patientID=?";
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst2.setInt(1, userID);
+			//This gets the values back one by one from the database
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				username = rs2.getString("username");
+			}
+			return username;
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
+	
+	//Get admin username
+	public String getPharmacistUsername (int userID) {
+		String username = null;
+		try {
+			connection = dbConnector();
+			String query2 = "SELECT username FROM Pharmacist where pharmacistID=?";
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst2.setInt(1, userID);
+			//This gets the values back one by one from the database
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				username = rs2.getString("username");
+			}
+			return username;
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
 }

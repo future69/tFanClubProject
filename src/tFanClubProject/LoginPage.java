@@ -11,6 +11,7 @@ import java.sql.*;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
+import net.miginfocom.swing.MigLayout;
 
 public class LoginPage extends JFrame {
 
@@ -50,35 +51,33 @@ public class LoginPage extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new MigLayout("", "[79px][10px][][116px][][][]", "[35px][20px][20px][23px][][]"));
 		
-		textFieldUsername = new JTextField();
-		textFieldUsername.setBounds(199, 87, 116, 20);
-		contentPane.add(textFieldUsername);
-		textFieldUsername.setColumns(10);
+		JLabel lblPicture = new JLabel("");
+		lblPicture.setIcon(new ImageIcon("D:\\Downloads\\logo.png"));
+		contentPane.add(lblPicture, "cell 3 1");
 		
 		JLabel lblUsername = new JLabel("Username :");
-		lblUsername.setBounds(110, 90, 79, 14);
-		contentPane.add(lblUsername);
+		contentPane.add(lblUsername, "cell 2 2,growx,aligny center");
+		
+		textFieldUsername = new JTextField();
+		contentPane.add(textFieldUsername, "cell 3 2,growx,aligny top");
+		textFieldUsername.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password :");
-		lblPassword.setBounds(110, 131, 79, 14);
-		contentPane.add(lblPassword);
-		
-		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(176, 165, 89, 23);
-		contentPane.add(btnLogin);
+		contentPane.add(lblPassword, "cell 2 3,growx,aligny center");
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(199, 128, 116, 20);
-		contentPane.add(passwordField);
+		contentPane.add(passwordField, "cell 3 3,growx,aligny top");
 		
 		JLabel lblProblem = new JLabel("");
 		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblProblem.setForeground(Color.RED);
-		lblProblem.setBounds(110, 43, 205, 35);
-		contentPane.add(lblProblem);
+		contentPane.add(lblProblem, "cell 2 4,grow");
+		
+		
+		JButton btnLogin = new JButton("Login");
+		contentPane.add(btnLogin, "cell 3 4,alignx center,aligny top");
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	

@@ -12,4 +12,26 @@ public class homePageAdminController {
 		
 		return result;
 	}
+	
+	public String passUsername(int ID, int userType) {
+		Admin admin = new Admin();
+		String username = null;
+		switch(userType) {
+		
+		case 0:
+			username = admin.getAdminUsername(ID);
+			break;
+		case 1:
+			username = admin.getDoctorUsername(ID);
+			break;
+		case 2:
+			username = admin.getPatientUsername(ID);
+			break;
+		case 3:
+			username = admin.getPharmacistUsername(ID);
+			break;
+		}
+		
+		return username;
+	}
 }
