@@ -53,9 +53,10 @@ public class LoginPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[79px][10px][][116px][][][]", "[35px][20px][20px][23px][][]"));
 		
-		JLabel lblPicture = new JLabel("");
-		lblPicture.setIcon(new ImageIcon("D:\\Downloads\\logo.png"));
-		contentPane.add(lblPicture, "cell 3 1");
+		JLabel lblProblem = new JLabel("");
+		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblProblem.setForeground(Color.RED);
+		contentPane.add(lblProblem, "cell 3 1,grow");
 		
 		JLabel lblUsername = new JLabel("Username :");
 		contentPane.add(lblUsername, "cell 2 2,growx,aligny center");
@@ -69,11 +70,6 @@ public class LoginPage extends JFrame {
 		
 		passwordField = new JPasswordField();
 		contentPane.add(passwordField, "cell 3 3,growx,aligny top");
-		
-		JLabel lblProblem = new JLabel("");
-		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblProblem.setForeground(Color.RED);
-		contentPane.add(lblProblem, "cell 2 4,grow");
 		
 		
 		JButton btnLogin = new JButton("Login");
@@ -93,14 +89,22 @@ public class LoginPage extends JFrame {
 				else {
 					//Calling method in controller class
 					LoginPageController loginControl = new LoginPageController();
-					
-					if(loginControl.passUserInfo(username, password) == true) 
-					{
-						lblProblem.setText("Login Success");
-						JFrame homepage = new homePageAdmin(username);
-						
-						homepage.setVisible(true);
-						dispose();
+					String role = loginControl.passUserInfo(username, password).trim();
+					if(role != null){
+						switch(role) {
+						case "Admin":
+							JFrame homePageAdmin = new doctorMain(username);
+							homePageAdmin.setVisible(true);
+							dispose();
+						case "Doctor":
+							JFrame doctorMain = new doctorMain(username);
+							doctorMain.setVisible(true);
+							dispose();
+						case "Patient":
+							JFrame homePagePatient = new homePagePatient(username);
+							homePagePatient.setVisible(true);
+							dispose();
+						}
 					}
 					else {
 						lblProblem.setText("Incorrect username or password");
@@ -111,6 +115,10 @@ public class LoginPage extends JFrame {
 		});
 	
 	}
+	
+	//JFrame doctorMain = new doctorMain(username);
+	//doctorMain.setVisible(true);
+	//dispose();
 	
 	//Method to check null
 	public boolean CheckNull(String username, char[] password) {
