@@ -96,14 +96,17 @@ public class LoginPage extends JFrame {
 							JFrame homePageAdmin = new homePageAdmin(username);
 							homePageAdmin.setVisible(true);
 							dispose();
+							break;
 						case "Doctor":
 							JFrame doctorMain = new doctorMain(username);
 							doctorMain.setVisible(true);
 							dispose();
+							break;
 						case "Patient":
 							JFrame homePagePatient = new homePagePatient(username);
 							homePagePatient.setVisible(true);
 							dispose();
+							break;
 						}
 					}
 					else {
