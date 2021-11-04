@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -46,11 +47,17 @@ public class homePagePatient extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][][][][][114px][10px][153px][][][][][127px][][][]", "[35px][23px][23px][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[][][][][][][114px][10px][153px][][][][][][127px][][][]", "[35px][23px][23px][][][][][][][]"));
 		
 		//Set username to Jlabel
 		homePagePatientController patientController = new homePagePatientController();
-		String fullName = patientController.passPatientHomepageInfo(username);
+		String fullName = patientController.passPatientFullName(username);
+		
+		JLabel lblWelcome = new JLabel("New label");
+		contentPane.add(lblWelcome, "cell 1 1,grow");
+		lblWelcome.setText("Welcome Patient,");
+		JLabel lblNewLabel_1 = new JLabel(fullName);
+		contentPane.add(lblNewLabel_1, "flowx,cell 2 1");
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
@@ -61,24 +68,50 @@ public class homePagePatient extends JFrame {
 				dispose();
 			}
 		});
-		contentPane.add(btnLogout, "cell 12 0,alignx right,aligny top");
-		
-		JLabel lblWelcome = new JLabel("New label");
-		contentPane.add(lblWelcome, "cell 0 1,grow");
-		lblWelcome.setText("Welcome Patient, ");
-		JLabel lblNewLabel_1 = new JLabel(fullName);
-		contentPane.add(lblNewLabel_1, "cell 1 1");
+		contentPane.add(btnLogout, "cell 9 1,alignx right,aligny top");
 		
 		
 		JLabel lblNewLabel = new JLabel("Prescription number : ");
-		contentPane.add(lblNewLabel, "flowx,cell 1 5,growx,aligny center");
+		contentPane.add(lblNewLabel, "flowx,cell 2 5,growx,aligny center");
 		
 		textField = new JTextField();
-		contentPane.add(textField, "cell 5 5,growx,aligny center");
+		contentPane.add(textField, "cell 6 5,growx,aligny center");
 		textField.setColumns(10);
 		
-		JButton btnNewButton_1 = new JButton("Search");
-		contentPane.add(btnNewButton_1, "cell 7 5,alignx left,aligny top");
+		JButton btnSearch = new JButton("Search");
+		contentPane.add(btnSearch, "cell 8 5,alignx left,aligny top");
+		btnSearch.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (textField.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null, "Please key in the prescription ID");			
+				}
+				else
+				{
+					try
+					{
+						int prescriptionID = Integer.parseInt(textField.getText());
+
+						if(patientController.checkPrescription(username, prescriptionID) == false)
+						{
+							JOptionPane.showMessageDialog(null, "The prescription ID entered do not belong to you or doesn't exist.");	
+						}
+						else 
+						{
+							JFrame viewPrescription = new viewPrescription(username, prescriptionID);
+							viewPrescription.setVisible(true);
+							dispose();	
+						}
+					}
+					catch (NumberFormatException a)
+					{
+						JOptionPane.showMessageDialog(null, "Please enter an integer for the ID.");	
+					}
+				}
+			} 
+		});
 		
 		JButton btnNewButton = new JButton("View my prescriptions");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -88,7 +121,7 @@ public class homePagePatient extends JFrame {
 				dispose();
 			}
 		});
-		contentPane.add(btnNewButton, "cell 5 7,alignx left,aligny top");
+		contentPane.add(btnNewButton, "cell 6 7,alignx left,aligny top");
 		
 			
 		

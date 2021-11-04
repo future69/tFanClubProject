@@ -7,14 +7,21 @@ public class viewPrescriptionListController
 		Patient patientData = new Patient ();
 		int patientID = patientData.getPatientID(accountUsername);
 	
-		return patientData.getPres(26);
+		return patientData.getPres(patientID);
 	}
 	
-	UserInfo user = new UserInfo();
+	Patient patientInfo = new Patient();
 
-	public String passPatientHomepageInfo (String username) 
+	public String passPatientFullName (String username) 
 	{
-		return user.getHomepageInfo(username);
+		String fullname  = patientInfo.getPatientName(username);
+		return fullname;
 	}
 	
+	public boolean checkPrescription(String username, int prescriptionID)
+	{
+		int patientID = patientInfo.getPatientID(username);
+		return patientInfo.checkPrescription(patientID, prescriptionID);
+
+	}
 }

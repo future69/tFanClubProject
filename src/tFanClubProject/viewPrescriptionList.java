@@ -18,6 +18,7 @@ import javax.swing.JSplitPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class viewPrescriptionList extends JFrame 
 {
@@ -66,11 +67,9 @@ public class viewPrescriptionList extends JFrame
 		viewPrescriptionListController vPLC = new viewPrescriptionListController(); 
 		
 		// User Info label
-		String fullName = vPLC.passPatientHomepageInfo(username);
+		String fullName = vPLC.passPatientFullName(username);
 		JLabel lblNewLabel_1 = new JLabel("Patient");
-		contentPane.add(lblNewLabel_1, "cell 9 2");
-		JLabel lblNewLabel_2 = new JLabel(fullName);
-		contentPane.add(lblNewLabel_2, "cell 1 1");
+		contentPane.add(lblNewLabel_1, "flowx,cell 9 2");
 		
 		// Logout button
 		JButton btnLogout = new JButton("Logout");
@@ -110,16 +109,38 @@ public class viewPrescriptionList extends JFrame
 		btnSearch.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
+			{if (textField.getText().isEmpty())
 			{
-				JFrame viewPrescription = new viewPrescription(accountUsername);
-				viewPrescription.setVisible(true);
-				dispose();
+				JOptionPane.showMessageDialog(null, "Please key in the prescription ID");			
 			}
+			else
+			{
+				try
+				{
+					int prescriptionID = Integer.parseInt(textField.getText());
+
+					if(vPLC.checkPrescription(username, prescriptionID) == false)
+					{
+						JOptionPane.showMessageDialog(null, "The prescription ID entered do not belong to you or doesn't exist.");	
+					}
+					else 
+					{
+						JFrame viewPrescription = new viewPrescription(username, prescriptionID);
+						viewPrescription.setVisible(true);
+						dispose();	
+					}
+				}
+				catch (NumberFormatException a)
+				{
+					JOptionPane.showMessageDialog(null, "Please enter an integer for the ID.");	
+				}
+			}
+			} 
 		});
 		
 		// Prescription table
 		String [] columnNames = {"Prescription ID", "Prescribed date", "Prescribed status"};
-		String [][] data = vPLC.getPrescriptions(accountUsername);;
+		String [][] data = vPLC.getPrescriptions(accountUsername);
 		
 		table = new JTable(data, columnNames);
 		
@@ -128,6 +149,8 @@ public class viewPrescriptionList extends JFrame
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		contentPane.add (scrollPane, "flowx,cell 9 10");
+		JLabel lblNewLabel_2 = new JLabel(fullName);
+		contentPane.add(lblNewLabel_2, "cell 9 2 1 2");
 		
 		
 	}
