@@ -68,7 +68,7 @@ public class homePagePatient extends JFrame {
 				dispose();
 			}
 		});
-		contentPane.add(btnLogout, "cell 9 1,alignx right,aligny top");
+		contentPane.add(btnLogout, "cell 8 1,alignx right,aligny top");
 		
 		
 		JLabel lblNewLabel = new JLabel("Prescription number : ");
@@ -78,7 +78,7 @@ public class homePagePatient extends JFrame {
 		contentPane.add(textField, "cell 6 5,growx,aligny center");
 		textField.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("Search my prescription");
 		contentPane.add(btnSearch, "cell 8 5,alignx left,aligny top");
 		btnSearch.addActionListener(new ActionListener() 
 		{
@@ -113,7 +113,7 @@ public class homePagePatient extends JFrame {
 			} 
 		});
 		
-		JButton btnNewButton = new JButton("View my prescriptions");
+		JButton btnNewButton = new JButton("View all prescriptions");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame viewprespage = new viewPrescriptionList(username);
