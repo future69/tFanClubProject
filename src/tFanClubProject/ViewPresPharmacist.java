@@ -58,7 +58,6 @@ public class ViewPresPharmacist extends JFrame {
 	}
 	 	
 	
-	
 	/**
 	 * Create the frame.
 	 */
@@ -91,12 +90,9 @@ public class ViewPresPharmacist extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{				
-				
-				
 					JFrame UpdatePresStatus = new UpdatePresStatus();
 					UpdatePresStatus.setVisible(true);
-					dispose();
-				
+					dispose();	
 			}
 		});
 		contentPane.add(btnUpdateStatus);
