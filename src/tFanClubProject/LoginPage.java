@@ -11,6 +11,7 @@ import java.sql.*;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
+import net.miginfocom.swing.MigLayout;
 
 public class LoginPage extends JFrame {
 
@@ -31,9 +32,6 @@ public class LoginPage extends JFrame {
 				}
 			}
 		});
-		
-
-		
 	}
 	
 	private JPasswordField passwordField;
@@ -50,35 +48,29 @@ public class LoginPage extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		textFieldUsername = new JTextField();
-		textFieldUsername.setBounds(199, 87, 116, 20);
-		contentPane.add(textFieldUsername);
-		textFieldUsername.setColumns(10);
-		
-		JLabel lblUsername = new JLabel("Username :");
-		lblUsername.setBounds(110, 90, 79, 14);
-		contentPane.add(lblUsername);
-		
-		JLabel lblPassword = new JLabel("Password :");
-		lblPassword.setBounds(110, 131, 79, 14);
-		contentPane.add(lblPassword);
-		
-		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(176, 165, 89, 23);
-		contentPane.add(btnLogin);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(199, 128, 116, 20);
-		contentPane.add(passwordField);
+		contentPane.setLayout(new MigLayout("", "[79px][10px][][116px][][][]", "[35px][20px][20px][23px][][]"));
 		
 		JLabel lblProblem = new JLabel("");
 		lblProblem.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblProblem.setForeground(Color.RED);
-		lblProblem.setBounds(110, 43, 205, 35);
-		contentPane.add(lblProblem);
+		contentPane.add(lblProblem, "cell 3 1,grow");
+		
+		JLabel lblUsername = new JLabel("Username :");
+		contentPane.add(lblUsername, "cell 2 2,growx,aligny center");
+		
+		textFieldUsername = new JTextField();
+		contentPane.add(textFieldUsername, "cell 3 2,growx,aligny top");
+		textFieldUsername.setColumns(10);
+		
+		JLabel lblPassword = new JLabel("Password :");
+		contentPane.add(lblPassword, "cell 2 3,growx,aligny center");
+		
+		passwordField = new JPasswordField();
+		contentPane.add(passwordField, "cell 3 3,growx,aligny top");
+		
+		
+		JButton btnLogin = new JButton("Login");
+		contentPane.add(btnLogin, "cell 3 4,alignx center,aligny top");
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
@@ -94,14 +86,25 @@ public class LoginPage extends JFrame {
 				else {
 					//Calling method in controller class
 					LoginPageController loginControl = new LoginPageController();
-					
-					if(loginControl.passUserInfo(username, password) == true) 
-					{
-						lblProblem.setText("Login Success");
-						JFrame homepage = new homePageAdmin(username);
-						
-						homepage.setVisible(true);
-						dispose();
+					String role = loginControl.passUserInfo(username, password).trim();
+					if(role != null){
+						switch(role) {
+						case "Admin":
+							JFrame homePageAdmin = new homePageAdmin(username);
+							homePageAdmin.setVisible(true);
+							dispose();
+							break;
+						case "Doctor":
+							JFrame doctorMain = new doctorMain(username);
+							doctorMain.setVisible(true);
+							dispose();
+							break;
+						case "Patient":
+							JFrame homePagePatient = new homePagePatient(username);
+							homePagePatient.setVisible(true);
+							dispose();
+							break;
+						}
 					}
 					else {
 						lblProblem.setText("Incorrect username or password");
@@ -112,6 +115,10 @@ public class LoginPage extends JFrame {
 		});
 	
 	}
+	
+	//JFrame doctorMain = new doctorMain(username);
+	//doctorMain.setVisible(true);
+	//dispose();
 	
 	//Method to check null
 	public boolean CheckNull(String username, char[] password) {

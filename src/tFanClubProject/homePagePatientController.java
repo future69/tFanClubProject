@@ -3,15 +3,19 @@ package tFanClubProject;
 public class homePagePatientController 
 {
 
-	UserInfo user = new UserInfo();
+	Patient patientInfo = new Patient();
 
-	public String passPatientHomepageInfo (String fullname) 
+	public String passPatientFullName (String username) 
 	{
-		
-		String result = null;
-		
-		result  = user.getHomepageInfo(fullname);
-		
-		return result;
+		String fullname  = patientInfo.getPatientName(username);
+		return fullname;
 	}
+	
+	
+	public boolean checkPrescription(String username, int prescriptionID)
+	{
+		int patientID = patientInfo.getPatientID(username);
+		return patientInfo.checkPrescription(patientID, prescriptionID);
+	}
+	
 }

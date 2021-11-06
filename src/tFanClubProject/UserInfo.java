@@ -27,8 +27,8 @@ public class UserInfo {
 	
 	
 	//For login page
-	public boolean validateInfo(String username, char[] password) {
-		boolean loginResult = false;
+	public String validateInfo(String username, char[] password) {
+		String loginResult = null;
 	try {
 
 		connection = dbConnector();
@@ -36,23 +36,15 @@ public class UserInfo {
 		String pass = String.valueOf(password);
 		
 		//userInfo is the name of the SQLite database, username and password are the fields
-		String query = "SELECT * FROM userInfo where Username=? and Password=?";
+		String query = "SELECT role FROM userInfo where Username=? and Password=?";
 		PreparedStatement pst = connection.prepareStatement(query);
 		pst.setString(1, username);
-		pst.setString(2, pass);;
-		
+		pst.setString(2, pass);
 		//This gets the values back one by one from the database
 		ResultSet rs = pst.executeQuery();
-		int count = 0;
-		while(rs.next()) {
-			count = count + 1;
-		}
 
-		if (count == 1) {
-			loginResult = true;
-		}
-		else {
-			loginResult = false;
+		while(rs.next()) {
+			loginResult = rs.getString("role");
 		}
 	}
 	catch(Exception f) {
