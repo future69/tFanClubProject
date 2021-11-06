@@ -19,26 +19,10 @@ public class doctorMain extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldPname;
-	private JTable table;
 
-	/* Connection code */
-	Connection connection = null;
-	Connection conn = null;
 	private JTable table_1;
 
-	// Establish connection with the database
-	public static Connection dbConnector() {
-
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-			return conn;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-			return null;
-		}
-	}
+	private DoctorController doctorController;
 
 	/**
 	 * Launch the application.
@@ -61,7 +45,7 @@ public class doctorMain extends JFrame {
 	 * Create the frame.
 	 */
 	public doctorMain() {
-
+		doctorController = new DoctorController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 626, 517);
 		contentPane = new JPanel();
@@ -75,15 +59,8 @@ public class doctorMain extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					connection = dbConnector();
-					Class.forName("org.sqlite.JDBC");
-					// Set this path to where you put your database file in your computer
-					String query = " SELECT * FROM Patient where username=?";
-					PreparedStatement pst = connection.prepareStatement(query);
-					pst.setString(1, textFieldPname.getText());
-					ResultSet rs = pst.executeQuery();
+					ResultSet rs = doctorController.getPatient(textFieldPname.getText());
 					table_1.setModel(DbUtils.resultSetToTableModel(rs));
-
 				} catch (Exception f) {
 					f.printStackTrace();
 				}
@@ -104,9 +81,9 @@ public class doctorMain extends JFrame {
 		lblPname.setBounds(92, 141, 79, 30);
 		contentPane.add(lblPname);
 
-		JButton btnSearch = new JButton("All Patients");
-		btnSearch.setBounds(198, 83, 117, 30);
-		contentPane.add(btnSearch);
+		JButton btnAllPatients = new JButton("All Patients");
+		btnAllPatients.setBounds(198, 83, 117, 30);
+		contentPane.add(btnAllPatients);
 
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setBounds(498, 35, 89, 30);
@@ -129,30 +106,27 @@ public class doctorMain extends JFrame {
 		btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow = table_1.getSelectedRow();
-				table_1.getValueAt(selectedRow, 0);
-				String patientId = table_1.getValueAt(selectedRow, 0).toString();
-				System.out.println(patientId);
-				doctorInfo doctorInfo = new doctorInfo(patientId);
+				if (selectedRow >= 0) {
+					String patientId = table_1.getValueAt(selectedRow, 0).toString();
+					doctorInfo doctorInfo = new doctorInfo(Integer.parseInt(patientId), doctorController);
+					doctorInfo.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //frame will hide on close, it will not terminate the program
+					doctorInfo.loadTable();
 
-				// you've passed the user and pass to other frame.
-				// then you can make it visible.
-				doctorInfo.setVisible(true);
+					// you've passed the user and pass to other frame.
+					// then you can make it visible.
+					doctorInfo.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a patient first!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnView.setBounds(386, 144, 89, 23);
 		contentPane.add(btnView);
 
-		btnSearch.addActionListener(new ActionListener() {
+		btnAllPatients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				try {
-					connection = dbConnector();
-					Class.forName("org.sqlite.JDBC");
-					// Set this path to where you put your database file in your computer
-
-					String query = " SELECT * FROM Patient";
-					PreparedStatement pst = connection.prepareStatement(query);
-					ResultSet rs = pst.executeQuery();
+					ResultSet rs = doctorController.getAllPatients();
 					table_1.setModel(DbUtils.resultSetToTableModel(rs));
 
 				} catch (Exception f) {

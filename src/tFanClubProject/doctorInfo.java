@@ -1,26 +1,19 @@
 package tFanClubProject;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.SystemColor;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -31,42 +24,18 @@ public class doctorInfo extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtPrescriptionsName;
 	private JLabel lblNewLabel;
-	private String patientId;
+	private int patientId;
+	private JTable table_2;
 
-	/* Connection code */
-	Connection connection = null;
-	Connection conn = null;
-	private JScrollPane scrollPane2;
+	private DoctorController doctorController;
 
-	// Establish connection with the database
-	public static Connection dbConnector() {
-
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-			return conn;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-			return null;
-		}
-	}
+	private int rowsCount;
 
 	public void loadTable() {
 		try {
-			connection = dbConnector();
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			String query = " SELECT dateDispensed,medicationName FROM Patient INNER JOIN Prescription on PATIENT.patientID = PRESCRIPTION.patientID where PATIENT.patientID=?";
-			PreparedStatement pst = connection.prepareStatement(query);
-			pst.setString(1, patientId);
-			ResultSet rs = pst.executeQuery();
-			//table_2.setModel(DbUtils.resultSetToTableModel(rs));
-			while (rs.next()) {
-
-				System.out.print(rs.getString("medicationName"));
-				System.out.println(rs.getDate("dateDispensed"));
-			}
+			ResultSet rs = doctorController.getPatientInfo(patientId);
+			table_2.setModel(DbUtils.resultSetToTableModel(rs));
+			rowsCount = table_2.getRowCount();
 		} catch (Exception f) {
 			f.printStackTrace();
 
@@ -91,8 +60,9 @@ public class doctorInfo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public doctorInfo(String patientId) {
+	public doctorInfo(int patientId, DoctorController doctorController) {
 		// TODO Auto-generated constructor stub
+		this.doctorController = doctorController;
 		this.patientId = patientId;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 645, 489);
@@ -119,43 +89,83 @@ public class doctorInfo extends JFrame {
 		lblNewLabel.setBounds(128, 112, 165, 29);
 		contentPane.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton("Search");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				try {
+					ResultSet rs = doctorController.getPrescription(patientId, txtPrescriptionsName.getText());
+					table_2.setModel(DbUtils.resultSetToTableModel(rs));
+					rowsCount = table_2.getRowCount();
+				} catch (Exception f) {
+					f.printStackTrace();
+				}
 			}
 		});
-		btnNewButton.setBounds(481, 113, 89, 28);
-		contentPane.add(btnNewButton);
+		btnSearch.setBounds(481, 113, 89, 28);
+		contentPane.add(btnSearch);
 
-		JLabel lblNewLabel_1 = new JLabel("History of <Patient Name>");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(32, 152, 220, 39);
-		contentPane.add(lblNewLabel_1);
+		String patientName = "";
+		try {
+			patientName = doctorController.getPatientName(patientId);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		JLabel lblPatientName = new JLabel("History of " + patientName);
+		lblPatientName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPatientName.setBounds(32, 152, 220, 39);
+		contentPane.add(lblPatientName);
 
 		JScrollPane scrollPane2 = new JScrollPane();
 		scrollPane2.setBounds(36, 224, 534, 191);
 		contentPane.add(scrollPane2);
-		JTable table_2 = new JTable();
+		table_2 = new JTable();
 		scrollPane2.setViewportView(table_2);
-		try {
-			connection = dbConnector();
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			String query = " SELECT dateDispensed,medicationName FROM Patient INNER JOIN Prescription on PATIENT.patientID = PRESCRIPTION.patientID where PATIENT.patientID=?";
-			PreparedStatement pst = connection.prepareStatement(query);
-			pst.setString(1, patientId);
-			ResultSet rs = pst.executeQuery();
-			table_2.setModel(DbUtils.resultSetToTableModel(rs));
-//			while (rs.next()) {
-//
-//				System.out.print(rs.getString("medicationName"));
-//				System.out.println(rs.getDate("dateDispensed"));
-//			}
-		} catch (Exception f) {
-			f.printStackTrace();
 
-		}
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel tableModel = (DefaultTableModel) table_2.getModel();
+				tableModel.addRow(new String[] { "", "" });
+				table_2.setModel(tableModel);
+			}
+		});
+		btnAdd.setBounds(368, 190, 89, 23);
+		contentPane.add(btnAdd);
+
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(467, 190, 89, 23);
+		contentPane.add(btnUpdate);
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (table_2.isEditing()) {
+					table_2.getCellEditor().stopCellEditing();
+				}
+				if (rowsCount < table_2.getRowCount()) {
+					String[] data = new String[table_2.getRowCount()];
+					String datePrescribed = table_2.getValueAt(table_2.getRowCount() - 1, 0).toString();
+					String medication = table_2.getValueAt(table_2.getRowCount() - 1, 1).toString();
+					if (!datePrescribed.isEmpty() && !medication.isEmpty()) {
+						try {
+							doctorController.addPrescription(patientId, datePrescribed, medication);
+							ResultSet rst = doctorController.getPrescription(patientId, "");
+							table_2.setModel(DbUtils.resultSetToTableModel(rst));
+							JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",
+									JOptionPane.INFORMATION_MESSAGE);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Please fill both fields!", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Please add the row first!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 	}
 }
