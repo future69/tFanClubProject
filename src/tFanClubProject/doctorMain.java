@@ -117,7 +117,7 @@ public class doctorMain extends JFrame {
 				int selectedRow = table_1.getSelectedRow();
 				if (selectedRow >= 0) {
 					String patientId = table_1.getValueAt(selectedRow, 0).toString();
-					doctorInfo doctorInfo = new doctorInfo(Integer.parseInt(patientId), doctorController);
+					doctorInfo doctorInfo = new doctorInfo(Integer.parseInt(patientId),username, doctorController);
 					doctorInfo.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //frame will hide on close, it will not terminate the program
 					doctorInfo.loadTable();
 

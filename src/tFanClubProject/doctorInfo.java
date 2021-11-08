@@ -25,6 +25,7 @@ public class doctorInfo extends JFrame {
 	private JTextField txtPrescriptionsName;
 	private JLabel lblNewLabel;
 	private int patientId;
+	private int dosage;
 	private JTable table_2;
 
 	private DoctorController doctorController;
@@ -60,10 +61,12 @@ public class doctorInfo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public doctorInfo(int patientId, DoctorController doctorController) {
+	public doctorInfo(int patientId,String username, DoctorController doctorController) {
 		// TODO Auto-generated constructor stub
 		this.doctorController = doctorController;
 		this.patientId = patientId;
+		DoctorController docController = new  DoctorController();
+        int docID= docController .getDoctorID(username);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 645, 489);
 		contentPane = new JPanel();
@@ -141,14 +144,16 @@ public class doctorInfo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (table_2.isEditing()) {
 					table_2.getCellEditor().stopCellEditing();
+				
 				}
 				if (rowsCount < table_2.getRowCount()) {
 					String[] data = new String[table_2.getRowCount()];
 					String datePrescribed = table_2.getValueAt(table_2.getRowCount() - 1, 0).toString();
 					String medication = table_2.getValueAt(table_2.getRowCount() - 1, 1).toString();
-					if (!datePrescribed.isEmpty() && !medication.isEmpty()) {
+					String dosage = table_2.getValueAt(table_2.getRowCount() - 1, 2).toString();
+					if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
 						try {
-							doctorController.addPrescription(patientId, datePrescribed, medication);
+							doctorController.addPrescription(patientId, datePrescribed, medication, docID, dosage);
 							ResultSet rst = doctorController.getPrescription(patientId, "");
 							table_2.setModel(DbUtils.resultSetToTableModel(rst));
 							JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",

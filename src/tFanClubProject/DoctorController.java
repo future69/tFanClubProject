@@ -1,10 +1,13 @@
 package tFanClubProject;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.JOptionPane;
 
@@ -37,6 +40,7 @@ public class DoctorController {
 		}
 	}
 	
+	
 	//retrieves the patient info
 	public ResultSet getPatient(String username) throws SQLException {
 		String query = " SELECT * FROM Patient where username=?";
@@ -54,7 +58,7 @@ public class DoctorController {
 
 	//retrieves the information of patient by patient id
 	public ResultSet getPatientInfo(int patientId) throws SQLException {
-		String query = " SELECT datePrescribed AS DatePrescribed, medicationName AS Medication FROM Patient "
+		String query = " SELECT datePrescribed AS DatePrescribed, medicationName AS Medication, dosage AS dosage FROM Patient "
 				+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
 				+ "where PATIENT.patientID = ?";
 		PreparedStatement pst = connection.prepareStatement(query);
@@ -73,7 +77,7 @@ public class DoctorController {
 
 	//retrieves the prescription of the patient by patient id
 	public ResultSet getPrescription(int patientId, String prescriptionName) throws SQLException {
-		String query = " SELECT dateDispensed AS datePrescribed, medicationName AS medication FROM Patient "
+		String query = " SELECT datePrescribed AS datePrescribed, medicationName AS medication, dosage AS dosage FROM Patient "
 				+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
 				+ "where PATIENT.patientID = ? AND Prescription.medicationName LIKE ?";
 		PreparedStatement pst = connection.prepareStatement(query);
@@ -83,14 +87,39 @@ public class DoctorController {
 	}
 	
 	//adds new prescription of the patient
-	public void addPrescription(int patientId, String datePrescribed, String medication) throws SQLException {
-		String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName)"
-				+ "VALUES(?,?,?)";
+	public void addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage) throws SQLException {
+		String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage)"
+				+ "VALUES(?,?,?,?,?,?)";
 		PreparedStatement pst = connection.prepareStatement(query);
 		pst.setString(1, datePrescribed);
 		pst.setInt(2, patientId);
 		pst.setString(3, medication);
-		pst.executeUpdate();
+		pst.setString(4, "Pending");
+		pst.setInt(5, doctorID);
+		pst.setString(6, dosage);
 	}
+
+
+	//For homepagePharmacist
+    public int getDoctorID(String username) {
+        int doctorID= 0;
+    try {
+        connection = dbConnector();
+        //hi
+        String query = "SELECT doctorID FROM Doctor where username = ?";
+        PreparedStatement pst = connection.prepareStatement(query);
+        pst.setString(1, username);
+
+        //This gets the values back one by one from the database
+        ResultSet rs = pst.executeQuery();
+        while(rs.next()) {
+            doctorID= rs.getInt("doctorID");
+        }
+    }
+    catch(Exception f) {
+        JOptionPane.showMessageDialog(null, f);
+    }
+    return doctorID;
+    }
 
 }
