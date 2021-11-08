@@ -31,7 +31,8 @@ public class doctorMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					doctorMain frame = new doctorMain();
+					String username = null;
+					doctorMain frame = new doctorMain(username);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,7 @@ public class doctorMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public doctorMain() {
+	public doctorMain(String username) {
 		doctorController = new DoctorController();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 626, 517);
@@ -86,6 +87,14 @@ public class doctorMain extends JFrame {
 		contentPane.add(btnAllPatients);
 
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					JFrame loginPage = new LoginPage();
+					loginPage.setVisible(true);
+						
+						dispose();
+			}
+		});
 		btnLogout.setBounds(498, 35, 89, 30);
 		contentPane.add(btnLogout);
 
@@ -142,4 +151,4 @@ public class doctorMain extends JFrame {
 
 		});
 	}
-}
+		}
