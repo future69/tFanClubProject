@@ -2,9 +2,9 @@ package tFanClubProject;
 
 public class homePagePharmacistController {
 
-	UserInfo user = new UserInfo();
+	Pharmacist user = new Pharmacist();
 
-	public String passAdminHomepageInfo (String fullname) {
+	public String passPharmacistHomepageInfo (String fullname) {
 		
 		String result = null;
 		
