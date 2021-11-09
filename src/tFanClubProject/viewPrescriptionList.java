@@ -138,21 +138,25 @@ public class viewPrescriptionList extends JFrame
 			} 
 		});
 		
+		getTable(accountUsername,fullName);
+	}
+	
+	public void getTable(String accountUsername,String fullName)
+	{
 		// Prescription table
-		String [] columnNames = {"Prescription ID", "Prescribed date", "Prescribed status"};
-		String [][] data = vPLC.getPrescriptions(accountUsername);
-		
-		table = new JTable(data, columnNames);
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		contentPane.add (scrollPane, "flowx,cell 9 10");
-		JLabel lblNewLabel_2 = new JLabel(fullName);
-		contentPane.add(lblNewLabel_2, "cell 9 2 1 2");
-		
-		
+				viewPrescriptionListController vPLC = new viewPrescriptionListController();
+				String [] columnNames = {"Prescription ID", "Prescribed date", "Prescribed status"};
+				String [][] data = vPLC.getPrescriptions(accountUsername);
+				
+				table = new JTable(data, columnNames);
+				
+				table.getColumnModel().getColumn(0).setPreferredWidth(100);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				
+				JScrollPane scrollPane = new JScrollPane(table);
+				contentPane.add (scrollPane, "flowx,cell 9 10");
+				JLabel lblNewLabel_2 = new JLabel(fullName);
+				contentPane.add(lblNewLabel_2, "cell 9 2 1 2");
 	}
 }
 	

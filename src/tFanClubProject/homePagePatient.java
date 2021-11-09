@@ -56,8 +56,7 @@ public class homePagePatient extends JFrame {
 		
 		JLabel lblWelcome = new JLabel("New label");
 		contentPane.add(lblWelcome, "cell 1 1,grow");
-		lblWelcome.setText("Patient: ");
-		lblWelcome.setFont(new Font("Verdana", Font.BOLD, 24));
+		lblWelcome.setText("Welcome patient, ");
 		JLabel lblNewLabel_1 = new JLabel(fullName);
 		contentPane.add(lblNewLabel_1, "flowx,cell 2 1");
 		
@@ -124,8 +123,6 @@ public class homePagePatient extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton, "cell 6 7,alignx left,aligny top");
-		
-			
 		
 	}
 }
