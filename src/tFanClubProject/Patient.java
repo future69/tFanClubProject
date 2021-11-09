@@ -115,7 +115,7 @@ public class Patient
 		try 
 		{
 			connection = dbConnector();
-			String query = "SELECT presNum, datePrescribed, presStatus FROM Prescription WHERE patientID = ?";
+			String query = "SELECT presNum, datePrescribed, presStatus FROM Prescription WHERE patientID = ? ORDER BY presStatus";
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			//This gets the values back one by one from the database
