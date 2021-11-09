@@ -73,7 +73,7 @@ public class homePagePharmacist extends JFrame {
 		});
 		contentPane.add(btnUpdatePrescription, "cell 8 2");
 		
-		JLabel lblSearchPres = new JLabel("Search Prescription :");
+		JLabel lblSearchPres = new JLabel("Search Prescription : ");
 		contentPane.add(lblSearchPres, "cell 0 3,growx,aligny center");
 		
 		JLabel lblErrorMsg = new JLabel("");
