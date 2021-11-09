@@ -115,7 +115,7 @@ public class Patient
 		try 
 		{
 			connection = dbConnector();
-			String query = "SELECT presNum, prescribedDate, presStatus FROM Prescription WHERE patientID = ?";
+			String query = "SELECT presNum, datePrescribed, presStatus FROM Prescription WHERE patientID = ? ORDER BY presStatus";
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			//This gets the values back one by one from the database
@@ -123,7 +123,7 @@ public class Patient
 			while(rspres.next()) 
 			{
 				String presNum = String.valueOf(rspres.getInt("presNum"));
-				String presDate = String.valueOf(rspres.getDate("prescribedDate"));
+				String presDate = rspres.getString("datePrescribed");
 				String presStatus = rspres.getString("presStatus");
 				presList [counter][0] = presNum;
 				presList [counter][1] = presDate;
@@ -207,14 +207,14 @@ public class Patient
 		String [] info = new String[2];
 		try {
 			connection = dbConnector();
-			String query = "SELECT prescribedDate, presStatus FROM Prescription WHERE patientID = ? AND presNum = ?";
+			String query = "SELECT datePrescribed, presStatus FROM Prescription WHERE patientID = ? AND presNum = ?";
 			PreparedStatement pst = connection.prepareStatement(query);
 			pst.setInt(1, patientID);
 			pst.setInt(2, prescriptionID);
 			ResultSet rspres = pst.executeQuery();
 			while(rspres.next()) 
 			{
-				info[0] = String.valueOf(rspres.getDate("prescribedDate"));
+				info[0] = rspres.getString("datePrescribed");
 				info[1] = rspres.getString("presStatus");
 			}
 			connection.close();

@@ -22,6 +22,5 @@ public class viewPrescriptionListController
 	{
 		int patientID = patientInfo.getPatientID(username);
 		return patientInfo.checkPrescription(patientID, prescriptionID);
-
 	}
 }

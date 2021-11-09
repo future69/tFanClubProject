@@ -86,7 +86,7 @@ public class LoginPage extends JFrame {
 				else {
 					//Calling method in controller class
 					LoginPageController loginControl = new LoginPageController();
-					String role = loginControl.passUserInfo(username, password).trim();
+					String role = loginControl.passUserInfo(username, password);
 					if(role != null){
 						switch(role) {
 						case "Admin":
@@ -102,6 +102,11 @@ public class LoginPage extends JFrame {
 						case "Patient":
 							JFrame homePagePatient = new homePagePatient(username);
 							homePagePatient.setVisible(true);
+							dispose();
+							break;
+						case "Pharmacist":
+							JFrame homePagePharmacist = new homePagePharmacist(username);
+							homePagePharmacist.setVisible(true);
 							dispose();
 							break;
 						}

@@ -2,6 +2,7 @@ package tFanClubProject;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -55,7 +56,7 @@ public class homePagePatient extends JFrame {
 		
 		JLabel lblWelcome = new JLabel("New label");
 		contentPane.add(lblWelcome, "cell 1 1,grow");
-		lblWelcome.setText("Welcome Patient,");
+		lblWelcome.setText("Welcome patient, ");
 		JLabel lblNewLabel_1 = new JLabel(fullName);
 		contentPane.add(lblNewLabel_1, "flowx,cell 2 1");
 		
@@ -122,8 +123,6 @@ public class homePagePatient extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton, "cell 6 7,alignx left,aligny top");
-		
-			
 		
 	}
 }

@@ -101,14 +101,10 @@ public class viewPrescription extends JFrame
 		
 		String [] details = vPC.getInfo(username, prescriptionID);
 		JLabel dateDispensedL = new JLabel("Date dispensed:");
-		contentPane.add(dateDispensedL, "cell 9 3");
+		contentPane.add(dateDispensedL, "flowx,cell 9 3");
 		
 		JLabel statusL = new JLabel("Status: ");
-		contentPane.add(statusL, "cell 9 4");
-		JLabel dateDispensed = new JLabel(details[0]);
-		contentPane.add(dateDispensed, "cell 9 6");
-		JLabel status = new JLabel(details[1]);
-		contentPane.add(status, "cell 9 7");
+		contentPane.add(statusL, "flowx,cell 9 4");
 		
 		
 		// data table
@@ -122,6 +118,10 @@ public class viewPrescription extends JFrame
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		contentPane.add (scrollPane, "flowx,cell 9 13");
+		JLabel dateDispensed = new JLabel(details[0]);
+		contentPane.add(dateDispensed, "cell 9 3");
+		JLabel status = new JLabel(details[1]);
+		contentPane.add(status, "cell 9 4");
 		
 	}
 
