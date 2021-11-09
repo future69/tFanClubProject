@@ -1,6 +1,6 @@
 package tFanClubProject;
 
-public class updateStatusPrescriptionController {
+public class updateStatusPharmacistController {
 	
 	Pharmacist user = new Pharmacist();
 
