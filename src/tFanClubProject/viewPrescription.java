@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JCheckBox;
 
 public class viewPrescription extends JFrame 
 {
@@ -33,7 +34,8 @@ public class viewPrescription extends JFrame
 				try 
 				{
 					String username = null;
-					viewPrescription frame = new viewPrescription(username);
+					int prescriptionID = 0;
+					viewPrescription frame = new viewPrescription(username, prescriptionID);
 					frame.setVisible(true);
 				}
 				catch (Exception e) 
@@ -47,7 +49,7 @@ public class viewPrescription extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public viewPrescription(String username) 
+	public viewPrescription(String username, int prescriptionID) 
 	{
 		
 		String accountUsername = username;
@@ -57,7 +59,7 @@ public class viewPrescription extends JFrame
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[55px,grow][][grow][][][][][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[55px,grow][][grow][][][][][][][][][][][][][][][][][][][][]", "[23px][grow][][][][][][][][][][][][][][][][][]"));
 		
 		// Logout button
 		JButton btnLogout = new JButton("Logout");
@@ -90,15 +92,24 @@ public class viewPrescription extends JFrame
 		viewPrescriptionController vPC = new viewPrescriptionController(); 
 		
 		// User Info label
-		String fullName = vPC.passPatientHomepageInfo(username);
-		JLabel lblNewLabel_1 = new JLabel("Patient");
-		contentPane.add(lblNewLabel_1, "cell 9 2");
-		JLabel lblNewLabel_2 = new JLabel(fullName);
-		contentPane.add(lblNewLabel_2, "cell 1 1");
+		String fullName = vPC.passPatientFullName(username);
+		JLabel patientLabel = new JLabel("Patient: ");
+		contentPane.add(patientLabel, "flowx,cell 9 2");
+		JLabel patientName = new JLabel(fullName);
+		contentPane.add(patientName, "cell 9 2");
+		
+		
+		String [] details = vPC.getInfo(username, prescriptionID);
+		JLabel dateDispensedL = new JLabel("Date dispensed:");
+		contentPane.add(dateDispensedL, "flowx,cell 9 3");
+		
+		JLabel statusL = new JLabel("Status: ");
+		contentPane.add(statusL, "flowx,cell 9 4");
+		
 		
 		// data table
-		String [] columnNames = {"Prescription ID", "Dosage"};
-		String [][] data = vPC.getPrescription(accountUsername);;
+		String [] columnNames = {"Medicine", "Dosage"};
+		String [][] data = vPC.getPrescription(accountUsername, prescriptionID);
 		
 		table = new JTable(data, columnNames);
 		
@@ -106,7 +117,12 @@ public class viewPrescription extends JFrame
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		contentPane.add (scrollPane, "flowx,cell 9 10");
+		contentPane.add (scrollPane, "flowx,cell 9 13");
+		JLabel dateDispensed = new JLabel(details[0]);
+		contentPane.add(dateDispensed, "cell 9 3");
+		JLabel status = new JLabel(details[1]);
+		contentPane.add(status, "cell 9 4");
+		
 	}
 
 }

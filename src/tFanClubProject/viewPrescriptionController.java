@@ -2,14 +2,21 @@ package tFanClubProject;
 
 public class viewPrescriptionController 
 {
-	UserInfo user = new UserInfo();
-	public String passPatientHomepageInfo (String username) 
+	Patient patientInfo = new Patient();
+
+	public String passPatientFullName (String username) 
 	{
-		return user.getHomepageInfo(username);
+		String fullname  = patientInfo.getPatientName(username);
+		return fullname;
 	}
-	public String [][] getPrescription()
+	public String [][] getPrescription(String accountUsername, int prescriptionID)
 	{
-		String [][] prescriptions = new String [4][4];
-		return prescriptions;
+		int patientID = patientInfo.getPatientID(accountUsername);
+		return patientInfo.getPrescription(patientID, prescriptionID);
+	}
+	public String [] getInfo(String username, int prescriptionID)
+	{
+		
+		return patientInfo.getInfo(patientInfo.getPatientID(username), prescriptionID);
 	}
 }

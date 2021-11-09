@@ -32,9 +32,6 @@ public class LoginPage extends JFrame {
 				}
 			}
 		});
-		
-
-		
 	}
 	
 	private JPasswordField passwordField;
