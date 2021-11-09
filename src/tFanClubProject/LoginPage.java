@@ -95,7 +95,7 @@ public class LoginPage extends JFrame {
 							dispose();
 							break;
 						case "Doctor":
-							JFrame doctorMain = new doctorMain(username);
+							JFrame doctorMain = new homePageDoctor(username);
 							doctorMain.setVisible(true);
 							dispose();
 							break;
