@@ -116,9 +116,9 @@ public class updateStatusPharmacist extends JFrame {
 						int presID = Integer.parseInt(textFieldSearchPrescription.getText());
 						retrievePrescriptionInfo(presID);
 						comboBoxStatus.setSelectedIndex(comboBoxValue);
-				
+						lblMessage.setText(null);
 					} catch (Exception f) {
-						lblMessage.setText("Please enter a number");
+						lblMessage.setText("No such prescription ID");
 					}
 				}
 				
@@ -197,11 +197,17 @@ public class updateStatusPharmacist extends JFrame {
 	
 	
 	public void retrievePrescriptionInfo(int presID) {
+		//Clears previous values from textbox
+		textFieldDateDispensed.setText(null);
+		textFieldMedicationName.setText(null);
+		textFieldDosage.setText(null);
+		
 		updateStatusPharmacistController con = new updateStatusPharmacistController();
 		String[] info = con.passPrescriptionInfo(presID);
 		textFieldDateDispensed.setText(info[1]);
 		textFieldMedicationName.setText(info[3]);
 		textFieldDosage.setText(info[4]);
+
 		if (info[2].trim().toLowerCase().equals("approved")) {
 			comboBoxValue = 0;
 		} else if (info[2].trim().toLowerCase().equals("pending")) {
