@@ -28,13 +28,14 @@ public class doctorInfo extends JFrame {
 	private int dosage;
 	private JTable table_2;
 
-	private DoctorController doctorController;
+//	private doctorInfoController doctorInfoController;
 
 	private int rowsCount;
 
 	public void loadTable() {
 		try {
-			ResultSet rs = doctorController.getPatientInfo(patientId);
+			doctorInfoController doc1 = new doctorInfoController();
+			ResultSet rs = doc1.getPatientInfo(patientId);
 			table_2.setModel(DbUtils.resultSetToTableModel(rs));
 			rowsCount = table_2.getRowCount();
 		} catch (Exception f) {
@@ -42,31 +43,17 @@ public class doctorInfo extends JFrame {
 
 		}
 	}
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					doctorInfo frame = new doctorInfo();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the frame.
+	 * @throws SQLException 
 	 */
-	public doctorInfo(int patientId,String username, DoctorController doctorController) {
+	public doctorInfo(int patientId,String username,int doctorID) throws SQLException {
 		// TODO Auto-generated constructor stub
-		this.doctorController = doctorController;
+//		this.doctorInfoController = homePageDoctorController;
 		this.patientId = patientId;
-		DoctorController docController = new  DoctorController();
-        int docID= docController .getDoctorID(username);
+		doctorInfoController docController = new  doctorInfoController();
+//        int docID= docController.getDoctorID(username);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 645, 489);
 		contentPane = new JPanel();
@@ -97,7 +84,8 @@ public class doctorInfo extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ResultSet rs = doctorController.getPrescription(patientId, txtPrescriptionsName.getText());
+					doctorInfoController Doc1 = new doctorInfoController();
+					ResultSet rs = Doc1.getPrescription(patientId, txtPrescriptionsName.getText());
 					table_2.setModel(DbUtils.resultSetToTableModel(rs));
 					rowsCount = table_2.getRowCount();
 				} catch (Exception f) {
@@ -109,11 +97,7 @@ public class doctorInfo extends JFrame {
 		contentPane.add(btnSearch);
 
 		String patientName = "";
-		try {
-			patientName = doctorController.getPatientName(patientId);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		patientName = doctorInfoController.getPatientName(patientId);
 
 		JLabel lblPatientName = new JLabel("History of " + patientName);
 		lblPatientName.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -152,16 +136,24 @@ public class doctorInfo extends JFrame {
 					String medication = table_2.getValueAt(table_2.getRowCount() - 1, 1).toString();
 					String dosage = table_2.getValueAt(table_2.getRowCount() - 1, 2).toString();
 					if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
+						doctorInfoController Doc1 = new doctorInfoController();
 						try {
-							doctorController.addPrescription(patientId, datePrescribed, medication, docID, dosage);
-							ResultSet rst = doctorController.getPrescription(patientId, "");
-							table_2.setModel(DbUtils.resultSetToTableModel(rst));
-							JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",
-									JOptionPane.INFORMATION_MESSAGE);
+							Doc1.addPrescription(patientId, datePrescribed, medication, doctorID, dosage);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						ResultSet rst;
+						try {
+							rst = Doc1.getPrescription(patientId, "");
+							table_2.setModel(DbUtils.resultSetToTableModel(rst));
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+//						table_2.setModel(DbUtils.resultSetToTableModel(rst));
+						JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "Please fill both fields!", "Error",
 								JOptionPane.ERROR_MESSAGE);

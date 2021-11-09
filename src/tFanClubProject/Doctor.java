@@ -1,50 +1,31 @@
 package tFanClubProject;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 import javax.swing.JOptionPane;
 
-public class DoctorController {
-
-	/* Connection code */
-	private Connection connection;
-
-	public DoctorController() {
-		// Establish connection with the database
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			connection = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-	}
-
-	public static Connection dbConnector() {
+public class Doctor {
+	Connection conn;
+	public Doctor() {
 
 		try {
 			Class.forName("org.sqlite.JDBC");
 			// Set this path to where you put your database file in your computer
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-			return conn;
+			conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
+		
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
-			return null;
+			conn = null;
 		}
 	}
-	
-	
 	//retrieves the patient info
 	public ResultSet getPatient(String username) throws SQLException {
 		String query = " SELECT * FROM Patient where username=?";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		pst.setString(1, username);
 		return pst.executeQuery();
 	}
@@ -52,7 +33,7 @@ public class DoctorController {
 	//retrieves information of all patients
 	public ResultSet getAllPatients() throws SQLException {
 		String query = " SELECT * FROM Patient";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		return pst.executeQuery();
 	}
 
@@ -61,7 +42,7 @@ public class DoctorController {
 		String query = " SELECT datePrescribed AS DatePrescribed, medicationName AS Medication, dosage AS dosage FROM Patient "
 				+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
 				+ "where PATIENT.patientID = ?";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		pst.setInt(1, patientId);
 		return pst.executeQuery();
 	}
@@ -69,7 +50,7 @@ public class DoctorController {
 	//retrieves the patient's fullname
 	public String getPatientName(int patientId) throws SQLException {
 		String query = " SELECT patientFName||' '||patientLName AS patientName FROM Patient where patientID=?";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		pst.setInt(1, patientId);
 		ResultSet rst = pst.executeQuery();
 		return rst.getString("patientName");
@@ -80,7 +61,7 @@ public class DoctorController {
 		String query = " SELECT datePrescribed AS datePrescribed, medicationName AS medication, dosage AS dosage FROM Patient "
 				+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
 				+ "where PATIENT.patientID = ? AND Prescription.medicationName LIKE ?";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		pst.setInt(1, patientId);
 		pst.setString(2, "%" + prescriptionName + "%");
 		return pst.executeQuery();
@@ -90,7 +71,7 @@ public class DoctorController {
 	public void addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage) throws SQLException {
 		String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage)"
 				+ "VALUES(?,?,?,?,?,?)";
-		PreparedStatement pst = connection.prepareStatement(query);
+		PreparedStatement pst = conn.prepareStatement(query);
 		pst.setString(1, datePrescribed);
 		pst.setInt(2, patientId);
 		pst.setString(3, medication);
@@ -98,16 +79,13 @@ public class DoctorController {
 		pst.setInt(5, doctorID);
 		pst.setString(6, dosage);
 	}
-
-
 	//For homepagePharmacist
-    public int getDoctorID(String username) {
+    public int getDoctorID(String username) throws SQLException {
         int doctorID= 0;
-    try {
-        connection = dbConnector();
+
         //hi
         String query = "SELECT doctorID FROM Doctor where username = ?";
-        PreparedStatement pst = connection.prepareStatement(query);
+        PreparedStatement pst = conn.prepareStatement(query);
         pst.setString(1, username);
 
         //This gets the values back one by one from the database
@@ -115,11 +93,8 @@ public class DoctorController {
         while(rs.next()) {
             doctorID= rs.getInt("doctorID");
         }
-    }
-    catch(Exception f) {
-        JOptionPane.showMessageDialog(null, f);
-    }
-    return doctorID;
+        return doctorID;
+  
     }
 
 }
