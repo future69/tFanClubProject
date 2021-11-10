@@ -67,7 +67,7 @@ public class viewPrescriptionList extends JFrame
 		
 		// User Info label
 		String fullName = vPLC.passPatientFullName(username);
-		JLabel lblNewLabel_1 = new JLabel("Patient");
+		JLabel lblNewLabel_1 = new JLabel("Patient:");
 		contentPane.add(lblNewLabel_1, "flowx,cell 9 2");
 		
 		// Logout button
