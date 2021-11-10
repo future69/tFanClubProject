@@ -123,7 +123,7 @@ public class Patient
 			while(rspres.next()) 
 			{
 				String presNum = String.valueOf(rspres.getInt("presNum"));
-				String presDate = rspres.getString("datePrescribed");
+				String presDate = formatDate(rspres.getString("datePrescribed"));
 				String presStatus = rspres.getString("presStatus");
 				presList [counter][0] = presNum;
 				presList [counter][1] = presDate;
@@ -214,7 +214,7 @@ public class Patient
 			ResultSet rspres = pst.executeQuery();
 			while(rspres.next()) 
 			{
-				info[0] = rspres.getString("datePrescribed");
+				info[0] = formatDate(rspres.getString("datePrescribed"));
 				info[1] = rspres.getString("presStatus");
 			}
 			connection.close();
@@ -226,5 +226,20 @@ public class Patient
 			JOptionPane.showMessageDialog(null, f);
 			return info;
 		}
+	}
+	public String formatDate(String date)
+	{
+		String output = "";
+		for (int i = 0; i < date.length(); i++)
+		{
+		    char c = date.charAt(i);
+		    if (i == 2)
+		    	output = output + '-' + c ;
+		    else if (i == 4)
+		    	output = output + '-' + c ;
+		    else 
+		    	output = output + c;
+		}
+		return output;
 	}
 }

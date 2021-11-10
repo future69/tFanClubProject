@@ -1,6 +1,6 @@
 package tFanClubProject;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
+
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JSplitPane;
-import javax.swing.table.DefaultTableModel;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -68,7 +67,7 @@ public class viewPrescriptionList extends JFrame
 		
 		// User Info label
 		String fullName = vPLC.passPatientFullName(username);
-		JLabel lblNewLabel_1 = new JLabel("Patient");
+		JLabel lblNewLabel_1 = new JLabel("Patient:");
 		contentPane.add(lblNewLabel_1, "flowx,cell 9 2");
 		
 		// Logout button

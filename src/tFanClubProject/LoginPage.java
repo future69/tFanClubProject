@@ -95,10 +95,17 @@ public class LoginPage extends JFrame {
 							dispose();
 							break;
 						case "Doctor":
-							JFrame doctorMain = new homePageDoctor(username);
-							doctorMain.setVisible(true);
-							dispose();
-							break;
+							JFrame doctorMain;
+							try {
+								doctorMain = new homePageDoctor(username);
+								doctorMain.setVisible(true);
+								dispose();
+								break;
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+								break;
+							}
 						case "Patient":
 							JFrame homePagePatient = new homePagePatient(username);
 							homePagePatient.setVisible(true);
