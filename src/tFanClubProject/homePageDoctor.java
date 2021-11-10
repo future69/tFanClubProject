@@ -16,7 +16,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class homePageDoctor extends JFrame {
-	
+
 	int doctorID = 0;
 	private JPanel contentPane;
 	private JTextField textFieldPname;
@@ -45,7 +45,8 @@ public class homePageDoctor extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public homePageDoctor(String username) throws SQLException {
 		homePageDoctorController = new homePageDoctorController();
@@ -57,7 +58,6 @@ public class homePageDoctor extends JFrame {
 		contentPane.setLayout(null);
 		homePageDoctorController docCon = new homePageDoctorController();
 		doctorID = docCon.getDoctorID(username);
-		
 
 		textFieldPname = new JTextField();
 		textFieldPname.setText("Patient Name");
@@ -65,8 +65,8 @@ public class homePageDoctor extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					ResultSet rs = homePageDoctorController.getPatient(textFieldPname.getText());
-					table_1.setModel(DbUtils.resultSetToTableModel(rs));
+
+					table_1.setModel(homePageDoctorController.getPatient(textFieldPname.getText()));
 				} catch (Exception f) {
 					f.printStackTrace();
 				}
@@ -94,10 +94,10 @@ public class homePageDoctor extends JFrame {
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					JFrame loginPage = new LoginPage();
-					loginPage.setVisible(true);
-						
-						dispose();
+				JFrame loginPage = new LoginPage();
+				loginPage.setVisible(true);
+
+				dispose();
 			}
 		});
 		btnLogout.setBounds(498, 35, 89, 30);
@@ -124,15 +124,15 @@ public class homePageDoctor extends JFrame {
 				if (selectedRow >= 0) {
 					String patientId = table_1.getValueAt(selectedRow, 0).toString();
 					try {
-						 id = Integer.parseInt(patientId);
-					}
-					catch (Exception f) {
-						
+						id = Integer.parseInt(patientId);
+					} catch (Exception f) {
+
 					}
 					doctorInfo doctorInfo;
 					try {
-						doctorInfo = new doctorInfo(id,username,doctorID);
-						doctorInfo.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //frame will hide on close, it will not terminate the program
+						doctorInfo = new doctorInfo(id, username, doctorID);
+						doctorInfo.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // frame will hide on close, it will
+																					// not terminate the program
 						doctorInfo.loadTable();
 						doctorInfo.setVisible(true);
 					} catch (SQLException e1) {
@@ -140,12 +140,12 @@ public class homePageDoctor extends JFrame {
 						e1.printStackTrace();
 					}
 
-
 					// you've passed the user and pass to other frame.
 					// then you can make it visible.
-				
+
 				} else {
-					JOptionPane.showMessageDialog(null, "Please select a patient first!", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please select a patient first!", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -155,8 +155,8 @@ public class homePageDoctor extends JFrame {
 		btnAllPatients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ResultSet rs = homePageDoctorController.getAllPatients();
-					table_1.setModel(DbUtils.resultSetToTableModel(rs));
+//					ResultSet rs = homePageDoctorController.getAllPatients();
+					table_1.setModel(homePageDoctorController.getAllPatients());
 
 				} catch (Exception f) {
 					f.printStackTrace();
@@ -171,4 +171,4 @@ public class homePageDoctor extends JFrame {
 
 		});
 	}
-		}
+}
