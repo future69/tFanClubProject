@@ -21,6 +21,7 @@ public class Doctor {
 			JOptionPane.showMessageDialog(null, e);
 			conn = null;
 		}
+
 	}
 	//retrieves the patient info
 	public ResultSet getPatient(String username) throws SQLException {
@@ -34,6 +35,7 @@ public class Doctor {
 	public ResultSet getAllPatients() throws SQLException {
 		String query = " SELECT * FROM Patient";
 		PreparedStatement pst = conn.prepareStatement(query);
+		pst.executeQuery();
 		return pst.executeQuery();
 	}
 
@@ -78,6 +80,9 @@ public class Doctor {
 		pst.setString(4, "Pending");
 		pst.setInt(5, doctorID);
 		pst.setString(6, dosage);
+		pst.executeUpdate();
+		pst.close();
+		conn.close();
 	}
 	//For homepagePharmacist
     public int getDoctorID(String username) throws SQLException {

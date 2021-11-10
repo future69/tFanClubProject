@@ -135,6 +135,7 @@ public class homePageDoctor extends JFrame {
 						doctorInfo.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); //frame will hide on close, it will not terminate the program
 						doctorInfo.loadTable();
 						doctorInfo.setVisible(true);
+						dispose();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
