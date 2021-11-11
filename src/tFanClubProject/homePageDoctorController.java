@@ -10,40 +10,40 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 public class homePageDoctorController {
 
 	/* Connection code */
-	private Connection connection;
+//	private Connection connection;
+//
+//	public homePageDoctorController() {
+//		// Establish connection with the database
+//		try {
+//			Class.forName("org.sqlite.JDBC");
+//			// Set this path to where you put your database file in your computer
+//			connection = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, e);
+//		}
+//	}
+//
+//	public static Connection dbConnector() {
+//
+//		try {
+//			Class.forName("org.sqlite.JDBC");
+//			// Set this path to where you put your database file in your computer
+//			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
+//			return conn;
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, e);
+//		}
+//		return null;
+//	}
 
-	public homePageDoctorController() {
-		// Establish connection with the database
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			connection = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-	}
-
-	public static Connection dbConnector() {
-
-		try {
-			Class.forName("org.sqlite.JDBC");
-			// Set this path to where you put your database file in your computer
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-			return conn;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-		return null;
-	}
-
-
-	public ResultSet getPatientInfo(int patientId) throws SQLException {
+	public TableModel getPatientInfo(int patientId) throws SQLException {
 		Doctor doc1 = new Doctor();
-		ResultSet username = doc1.getPatientInfo(patientId);
+		TableModel username = doc1.getPatientInfo(patientId);
 		return username;
 	}
 
@@ -58,21 +58,20 @@ public class homePageDoctorController {
 		return null;
 	}
 
-	public ResultSet getPatient(String text) throws SQLException {
+	public TableModel getPatient(String text) throws SQLException {
 		Doctor doc1 = new Doctor();
-		ResultSet username = doc1.getPatient(text);
+		TableModel username = doc1.getPatient(text);
 		return username;
 	}
 
-	public ResultSet getAllPatients() throws SQLException {
+	public TableModel getAllPatients() throws SQLException {
 		Doctor doc1 = new Doctor();
-		ResultSet username = doc1.getAllPatients();
+		TableModel username = doc1.getAllPatients();
 		return username;
 	}
-	
-	
+
 //	//retrieves the patient info
-//	public ResultSet getPatient(String username) throws SQLException {
+//	public ResTableModeltPatient(String username) throws SQLException {
 //		String query = " SELECT * FROM Patient where username=?";
 //		PreparedStatement pst = connection.prepareStatement(query);
 //		pst.setString(1, username);
