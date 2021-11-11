@@ -88,7 +88,7 @@ public class LoginPage extends JFrame {
 					LoginPageController loginControl = new LoginPageController();
 					String role = loginControl.passUserInfo(username, password);
 					if(role != null){
-						switch(role) {
+						switch(role.trim()) {
 						case "Admin":
 							JFrame homePageAdmin = new homePageAdmin(username);
 							homePageAdmin.setVisible(true);

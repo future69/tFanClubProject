@@ -38,7 +38,7 @@ public class addUserAdminController {
 		}
 	}
 	
-	public boolean addUserPharmacist(String username, char[] password, String pharmaName,String pharmacyAddress) {
+	public boolean addUserPharmacist(String username, char[] password, String pharmaName) {
 		Admin adminDB = new Admin();
 		boolean isThereDuplicate = adminDB.checkDuplicate(username);
 		
@@ -49,7 +49,7 @@ public class addUserAdminController {
 		else {
 			String role = "Pharmacist";
 			Admin admin = new Admin();
-			admin.addPharmacist(username, pharmaName, pharmacyAddress);
+			admin.addPharmacist(username, pharmaName);
 			admin.addUserInfo(username, password, role);
 			return true;
 		}

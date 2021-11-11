@@ -39,7 +39,8 @@ public class updateStatusPharmacist extends JFrame {
 			public void run() {
 				try {
 					String username = null;
-					updateStatusPharmacist frame = new updateStatusPharmacist(username);
+					String pharmaID = null;
+					updateStatusPharmacist frame = new updateStatusPharmacist(username,pharmaID);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +52,7 @@ public class updateStatusPharmacist extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public updateStatusPharmacist(String username) {
+	public updateStatusPharmacist(String username, String pharmaID) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 333);
 		contentPane = new JPanel();
@@ -97,7 +98,7 @@ public class updateStatusPharmacist extends JFrame {
 		contentPane.add(lblStatus, "cell 0 7,alignx trailing");
 		
 		JComboBox comboBoxStatus = new JComboBox();
-		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"Approved", "Pending"}));
+		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"Dispensed", "Pending"}));
 		contentPane.add(comboBoxStatus, "cell 1 7");
 		
 		textFieldSearchPrescription = new JTextField();
@@ -158,7 +159,7 @@ public class updateStatusPharmacist extends JFrame {
 							String comboValue = comboBoxStatus.getSelectedItem().toString();
 							presNum = Integer.valueOf(textFieldSearchPrescription.getText());
 							updateStatusPharmacistController presCon = new updateStatusPharmacistController();
-							presCon.updatePrescriptionInfo(presNum, date, comboValue);
+							presCon.updatePrescriptionInfo(presNum, date, comboValue, pharmaID);
 							lblMessage.setText("Successfully Updated");
 							resetTextfields();
 								
@@ -208,7 +209,7 @@ public class updateStatusPharmacist extends JFrame {
 		textFieldMedicationName.setText(info[3]);
 		textFieldDosage.setText(info[4]);
 
-		if (info[2].trim().toLowerCase().equals("approved")) {
+		if (info[2].trim().toLowerCase().equals("dispensed")) {
 			comboBoxValue = 0;
 		} else if (info[2].trim().toLowerCase().equals("pending")) {
 			comboBoxValue = 1;

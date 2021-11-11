@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -35,24 +37,45 @@ public class Pharmacist
 	public String getHomepageInfo(String username) {
 		String fullName = null;
 	try {
-
 		connection = dbConnector();
-		
 		//hi
-		String query = "SELECT pharmaName , pharmaAdd FROM Pharmacist where username = ?";
+		String query = "SELECT pharmaName FROM Pharmacist where username = ?";
 		PreparedStatement pst = connection.prepareStatement(query);
 		pst.setString(1, username);
 		
 		//This gets the values back one by one from the database
 		ResultSet rs = pst.executeQuery();
 		while(rs.next()) {
-			fullName = rs.getString("pharmaName") + (" at ")+ rs.getString("pharmaAdd");
+			fullName = rs.getString("pharmaName");
 		}
 	}
 	catch(Exception f) {
 		JOptionPane.showMessageDialog(null, f);
 	}
 	return fullName;
+	}
+	
+	
+	//gets the pharmacist ID
+	public String getPharmaID(String username) {
+		String id = null;
+	try {
+		connection = dbConnector();
+		//hi
+		String query = "SELECT pharmacistID FROM Pharmacist where username = ?";
+		PreparedStatement pst = connection.prepareStatement(query);
+		pst.setString(1, username);
+		
+		//This gets the values back one by one from the database
+		ResultSet rs = pst.executeQuery();
+		while(rs.next()) {
+			id = rs.getString("pharmacistID");
+		}
+	}
+	catch(Exception f) {
+		JOptionPane.showMessageDialog(null, f);
+	}
+	return id;
 	}
 	
 	//Get prescription info
@@ -87,17 +110,20 @@ public class Pharmacist
 	}
 	
 	//Updates Prescription table
-	public boolean updatePrescriptionInfo (int presNum, String dateDispensed, String presStatus) {
+	public boolean updatePrescriptionInfo (int presNum, String dateDispensed, String presStatus, String pharmaID) {
 		try {
 		connection = dbConnector();
+		
+		int id = Integer.valueOf(pharmaID);
 
 		//Updates data in Pharmacist
-		String query2 = "UPDATE Prescription SET dateDispensed=? , presStatus =? WHERE presNum=?";
+		String query2 = "UPDATE Prescription SET dateDispensed=? , presStatus =? , pharmacistID = ? WHERE presNum=?";
 		PreparedStatement pst2 = connection.prepareStatement(query2);
 		
 		pst2.setString(1, dateDispensed);
 		pst2.setString(2, presStatus);
-		pst2.setInt(3, presNum);
+		pst2.setInt(3, id);
+		pst2.setInt(4, presNum);
 		pst2.executeUpdate();
 		pst2.close();
 		
@@ -109,4 +135,30 @@ public class Pharmacist
 		}
 	}
 	
+	
+	//Get prescription token/id for search feature in homepage
+	public List<String> retrievePrescriptions (int patientID) {
+		List<String> prescriptionInfo = new ArrayList<String>();
+		try {
+			connection = dbConnector();
+			String query2 = "SELECT presNum FROM Prescription where patientID=?";
+			PreparedStatement pst2 = connection.prepareStatement(query2);
+			pst2.setInt(1, patientID);
+			//This gets the values back one by one from the database
+			ResultSet rs2 = pst2.executeQuery();
+			while(rs2.next()) {
+				prescriptionInfo.add(rs2.getString("presNum"));
+			}
+			if (prescriptionInfo == null ) {
+				return null;
+			}	
+			else {
+				return prescriptionInfo;
+			}
+		}
+		catch(Exception f) {
+			JOptionPane.showMessageDialog(null, f);
+			return null;
+		}
+	}
 }

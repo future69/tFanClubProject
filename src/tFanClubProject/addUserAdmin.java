@@ -203,6 +203,7 @@ public class addUserAdmin extends JFrame {
 								lblLastName.setText("Last Name : ");
 								lblPatientID.setEnabled(false);
 								textFieldPatientID.setEnabled(false);
+								textFieldLastNameAdd.setEnabled(true);
 								break;
 							case 1:
 								lblDOB.setEnabled(false);
@@ -213,6 +214,7 @@ public class addUserAdmin extends JFrame {
 								lblLastName.setText("Last Name : ");
 								lblPatientID.setEnabled(true);
 								textFieldPatientID.setEnabled(true);
+								textFieldLastNameAdd.setEnabled(true);
 								break;
 							case 2:
 								lblDOB.setEnabled(true);
@@ -223,6 +225,7 @@ public class addUserAdmin extends JFrame {
 								lblLastName.setText("Last Name : ");
 								lblPatientID.setEnabled(false);
 								textFieldPatientID.setEnabled(false);
+								textFieldLastNameAdd.setEnabled(true);
 								break;
 							case 3:
 								lblDOB.setEnabled(false);
@@ -230,9 +233,10 @@ public class addUserAdmin extends JFrame {
 								textFieldDOB.setEnabled(false);
 								textFieldEmail.setEnabled(false);
 								lblFirstName.setText("Pharmacy Name : ");
-								lblLastName.setText("Pharmacy Address : ");
+								lblLastName.setEnabled(false);
 								lblPatientID.setEnabled(false);
 								textFieldPatientID.setEnabled(false);
+								textFieldLastNameAdd.setEnabled(false);
 								break;
 						}
 					}
@@ -335,7 +339,6 @@ public class addUserAdmin extends JFrame {
 				retrieveUserAcc();
 				if (comboBoxUpdate.getSelectedIndex() == 3) {
 					lblFNameUpdate.setText("Pharmacist Name : ");
-					lblLNameUpdate.setText("Pharmacy Address : ");
 				} else {
 					lblFNameUpdate.setText("First Name : ");
 					lblLNameUpdate.setText("Last Name : ");
@@ -345,21 +348,25 @@ public class addUserAdmin extends JFrame {
 					lblDOBUpdate.setEnabled(false);
 					lblEmailUpdate.setEnabled(false);
 					lblPatientIDUpdate.setEnabled(false);
+					lblLNameUpdate.setEnabled(true);
 				}
 				else if (updateComboBoxValue == 1) {
 					lblDOBUpdate.setEnabled(false);
 					lblEmailUpdate.setEnabled(false);
 					lblPatientIDUpdate.setEnabled(true);
+					lblLNameUpdate.setEnabled(true);
 				}
 				else if (updateComboBoxValue == 2) {
 					lblDOBUpdate.setEnabled(true);
 					lblEmailUpdate.setEnabled(true);
 					lblPatientIDUpdate.setEnabled(false);
+					lblLNameUpdate.setEnabled(true);
 				}
 				else if (updateComboBoxValue == 3) {
 					lblDOBUpdate.setEnabled(false);
 					lblEmailUpdate.setEnabled(false);
 					lblPatientIDUpdate.setEnabled(false);
+					lblLNameUpdate.setEnabled(false);
 				}
 			}
 		});
@@ -396,7 +403,7 @@ public class addUserAdmin extends JFrame {
 				String DOB = textFieldDOB.getText();
 				String email = textFieldEmail.getText();
 				
-				if(checkNull(username, password, fName, lName) == true) {
+				if(checkNull(username, password, fName) == true) {
 					lblErrorMessage.setText("Please key in all required fields");
 				}
 				
@@ -408,7 +415,11 @@ public class addUserAdmin extends JFrame {
 				
 				//Add admin
 				case 0:
-					if(adminCon.addUserAdmin(username, password, fName, lName) == true) {
+					if(lName.isBlank()) {
+						lblUpdateMessage.setText("Please key in all required fields");
+						break;
+					}
+					else if(adminCon.addUserAdmin(username, password, fName, lName) == true) {
 						lblErrorMessage.setText("Success!");
 						successReset();
 						break;
@@ -425,7 +436,11 @@ public class addUserAdmin extends JFrame {
 						break;
 					}
 					
-					if(adminCon.addUserDoctor(username, password, fName, lName, patientID) == true) {
+					if(lName.isBlank()) {
+						lblUpdateMessage.setText("Please key in all required fields");
+						break;
+					}
+					else if(adminCon.addUserDoctor(username, password, fName, lName, patientID) == true) {
 						lblErrorMessage.setText("Success!");
 						successReset();
 						break;
@@ -444,6 +459,11 @@ public class addUserAdmin extends JFrame {
 					//Check if DOB is following the correct format by checking length of string
 					else if(DOB.length() != 8) {
 						lblErrorMessage.setText("DOB needs to be in DDMMYYYY format");
+						break;
+					}
+					
+					else if(lName.isBlank()) {
+						lblUpdateMessage.setText("Please key in all required fields");
 						break;
 					}
 					else {
@@ -467,7 +487,7 @@ public class addUserAdmin extends JFrame {
 					
 				//Add pharmacist
 				case 3:
-					if(adminCon.addUserPharmacist(username, password, fName, lName)) {
+					if(adminCon.addUserPharmacist(username, password, fName)) {
 						lblErrorMessage.setText("Success!");
 						successReset();
 						break;
@@ -493,7 +513,7 @@ public class addUserAdmin extends JFrame {
 					
 					updateUserAdminController adminConUpdate = new updateUserAdminController();
 					
-					if(checkNull(username, password, fName, lName) == true) {
+					if(checkNull(username, password, fName) == true) {
 						lblUpdateMessage.setText("Please key in all required fields");
 					}
 					
@@ -502,7 +522,11 @@ public class addUserAdmin extends JFrame {
 					
 					//Update admin
 					case 0:
-						if (adminConUpdate.updateAdminAcc(username, password, fName, lName) == true) {
+						if(lName.isBlank()) {
+							lblUpdateMessage.setText("Please key in all required fields");
+							break;
+						}
+					else if (adminConUpdate.updateAdminAcc(username, password, fName, lName) == true) {
 							successResetUpdate();
 							retrieveUserAcc();
 							lblUpdateMessage.setText("Succesfully Updated");
@@ -520,7 +544,12 @@ public class addUserAdmin extends JFrame {
 							break;
 						}
 						
-						if(adminConUpdate.updateDoctorAcc(username, password, fName, lName, patientID) == true) {
+						if(lName.isBlank()) {
+							lblUpdateMessage.setText("Please key in all required fields");
+							break;
+						}
+						
+						else if(adminConUpdate.updateDoctorAcc(username, password, fName, lName, patientID) == true) {
 							lblUpdateMessage.setText("Succesfully Updated");
 							successResetUpdate();
 							retrieveUserAcc();
@@ -540,6 +569,10 @@ public class addUserAdmin extends JFrame {
 						//Check if DOB is following the correct format by checking length of string
 						else if(DOB.length() != 8) {
 							lblUpdateMessage.setText("DOB needs to be in DDMMYYYY format");
+							break;
+						}
+						else if(lName.isBlank()) {
+							lblUpdateMessage.setText("Please key in all required fields");
 							break;
 						}
 						else {
@@ -564,7 +597,7 @@ public class addUserAdmin extends JFrame {
 						
 					//Update pharmacist table
 					case 3:
-						if(adminConUpdate.updatePharmacistAcc(username, password, fName, lName)){
+						if(adminConUpdate.updatePharmacistAcc(username, password, fName)){
 							lblUpdateMessage.setText("Success!");
 							successResetUpdate();
 							retrieveUserAcc();
@@ -583,8 +616,8 @@ public class addUserAdmin extends JFrame {
 	}
 	
 	//Check if the values are empty
-	public boolean checkNull(String username, char[] password, String fName, String lName) {
-		if(username.isBlank() || String.valueOf(password).isBlank() || fName.isBlank() || lName.isBlank()) {
+	public boolean checkNull(String username, char[] password, String fName) {
+		if(username.isBlank() || String.valueOf(password).isBlank() || fName.isBlank()) {
 			return true;
 		}
 		else {
@@ -698,10 +731,8 @@ public class addUserAdmin extends JFrame {
 			setUpdateEditable();
 			String pass = pharmacistAccInfo[0];
 			String pharmaName = pharmacistAccInfo[1];
-			String pharmaAdd = pharmacistAccInfo[2];
 			passwordFieldUpdate.setText(pass);
 			textFieldFNameUpdate.setText(pharmaName);
-			textFieldLNameUpdate.setText(pharmaAdd);
 			break;
 			} else {
 				setUpdateUneditable();
@@ -741,6 +772,10 @@ public class addUserAdmin extends JFrame {
 			textFieldDobUpdate.setEnabled(true);
 			textFieldEmailUpdate.setEnabled(true);
 		}
+		else if (updateComboBoxValue == 3) {
+			textFieldLNameUpdate.setEnabled(false);
+		}
+		
 	}
 	
 }

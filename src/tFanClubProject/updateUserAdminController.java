@@ -68,9 +68,9 @@ public class updateUserAdminController {
 	}
 	
 	//Update pharmacist table  
-	public boolean updatePharmacistAcc(String username, char[] password, String pharmaName, String pharmaAdd) {
+	public boolean updatePharmacistAcc(String username, char[] password, String pharmaName) {
 		Admin adminDB = new Admin();
-		if (adminDB.updatePharmacistAcc(username, password, pharmaName, pharmaAdd) == true) {
+		if (adminDB.updatePharmacistAcc(username, password, pharmaName) == true) {
 			return true;
 		} else {
 			return false;

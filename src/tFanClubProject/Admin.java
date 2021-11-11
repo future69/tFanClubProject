@@ -181,18 +181,17 @@ public class Admin {
 	}
 	
 	//Add account to pharmacist database
-	public void addPharmacist (String username, String FName, String pharmacyAddress) {
+	public void addPharmacist (String username, String FName) {
 	try {
 		int numOfRows = getCountPharmacist() + 1;
 		connection = dbConnector();
 		
 		//Inserts the data
-		String query = "INSERT INTO Pharmacist(pharamcistID, username, pharmaName, pharmaAdd) VALUES (?,?,?,?)";
+		String query = "INSERT INTO Pharmacist(pharamcistID, username, pharmaName) VALUES (?,?,?)";
 		PreparedStatement pst = connection.prepareStatement(query);
 		pst.setInt(1, numOfRows);
 		pst.setString(2, username);
 		pst.setString(3, FName);
-		pst.setString(4, pharmacyAddress);
 
 		pst.executeUpdate();
 		pst.close();
@@ -555,7 +554,7 @@ public class Admin {
 		try {
 			connection = dbConnector();
 			String query = "SELECT password FROM userInfo where username=?";
-			String query2 = "SELECT pharmaName , pharmaAdd FROM Pharmacist where username=?";
+			String query2 = "SELECT pharmaName FROM Pharmacist where username=?";
 			PreparedStatement pst = connection.prepareStatement(query);
 			PreparedStatement pst2 = connection.prepareStatement(query2);
 			pst.setString(1, username);
@@ -568,10 +567,9 @@ public class Admin {
 			ResultSet rs2 = pst2.executeQuery();
 			while(rs2.next()) {
 				pharmacistInfo[1] = rs2.getString("pharmaName");
-				pharmacistInfo[2] = rs2.getString("pharmaAdd");
 			}
 			
-			if (pharmacistInfo[1] == null || pharmacistInfo[2] == null) {
+			if (pharmacistInfo[1] == null) {
 				return null;
 			}	
 			
@@ -586,7 +584,7 @@ public class Admin {
 	}
 	
 	//Update pharmacist info
-	public boolean updatePharmacistAcc(String username, char[] password, String pharmaName, String pharmaAdd) {
+	public boolean updatePharmacistAcc(String username, char[] password, String pharmaName) {
 		try {
 			connection = dbConnector();
 			String pass = String.valueOf(password);
@@ -594,7 +592,7 @@ public class Admin {
 			//Updates data in userInfo
 			String query = "UPDATE userInfo SET password=? WHERE username=?";
 			//Updates data in Admin
-			String query2 = "UPDATE Pharmacist SET pharmaName=? , pharmaAdd=? WHERE username=?";
+			String query2 = "UPDATE Pharmacist SET pharmaName=? WHERE username=?";
 			PreparedStatement pst = connection.prepareStatement(query);
 			PreparedStatement pst2 = connection.prepareStatement(query2);
 
@@ -604,8 +602,6 @@ public class Admin {
 			pst.close();
 			
 			pst2.setString(1, pharmaName);
-			pst2.setString(2, pharmaAdd);
-			pst2.setString(3, username);
 			pst2.executeUpdate();
 			pst2.close();
 			
