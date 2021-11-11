@@ -13,34 +13,6 @@ import net.proteanit.sql.DbUtils;
 
 public class Doctor {
 
-//	Connection conn;
-//
-//	public Doctor() {
-//
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//			conn = null;
-//		}
-//	}
-//	public static Connection dbConnector() {
-//		 
-//
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//			return conn;
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//		}
-//		return null;
-//	}
-
 	// retrieves the patient info
 	public TableModel getPatient(String username) throws SQLException {
 		Connection con = ConnectDatabase.getConnection();
@@ -67,14 +39,17 @@ public class Doctor {
 	}
 
 	// retrieves information of all patients
-	public TableModel getAllPatients() throws SQLException {
+	public TableModel getAllPatients(int doctorID) throws SQLException {
 		Connection con = ConnectDatabase.getConnection();
 		if (con != null) {
 			PreparedStatement pst = null;
 			ResultSet response = null;
 			try {
-				String query = " SELECT * FROM Patient";
+				String query = "SELECT Patient.patientID, patientFName,patientLName " + "FROM Patient "
+						+ "INNER JOIN Doctor " + "ON Patient.patientID = Doctor.patientID "
+						+ "WHERE Doctor.doctorID = ?";
 				pst = con.prepareStatement(query);
+				pst.setInt(1, doctorID);
 				response = pst.executeQuery();
 				return DbUtils.resultSetToTableModel(response);
 			} catch (SQLException e) {
@@ -175,12 +150,15 @@ public class Doctor {
 	}
 
 	// adds new prescription of the patient
-	public int addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage)
+	public String addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage)
 			throws SQLException {
+		// generate token
+		String token = "xxx";
+
 		Connection con = ConnectDatabase.getConnection();
 		if (con != null) {
-			String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage)"
-					+ "VALUES(?,?,?,?,?,?)";
+			String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage,token)"
+					+ "VALUES(?,?,?,?,?,?,?))";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, datePrescribed);
 			pst.setInt(2, patientId);
@@ -188,11 +166,12 @@ public class Doctor {
 			pst.setString(4, "Pending");
 			pst.setInt(5, doctorID);
 			pst.setString(6, dosage);
-			int response = pst.executeUpdate();
+			pst.setString(7, token);
+			pst.executeUpdate();
 			pst.close();
-			return response;
+			return token;
 		}
-		return -1;
+		return null;
 	}
 
 	// For homepagePharmacist
@@ -217,6 +196,31 @@ public class Doctor {
 		}
 		return doctorID;
 
+	}
+
+	public int updateToken(int patientId) throws SQLException {
+		Connection con = ConnectDatabase.getConnection();
+		if (con != null) {
+			PreparedStatement pst = null;
+			int response = -1;
+			try {
+				String query = "UPDATE Prescription " + "SET token = hex(randomblob(16)) "
+						+ "WHERE patientID = 2 AND presStatus = 'Pending'";
+				pst = con.prepareStatement(query);
+				pst.setInt(1, patientId);
+				response = pst.executeUpdate();
+				return (response);
+
+			} catch (SQLException e) {
+				System.out.println(e);
+			} finally {
+				if (pst != null) {
+					pst.close();
+				}
+			}
+
+		}
+		return -1;
 	}
 
 }

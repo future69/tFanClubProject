@@ -95,6 +95,7 @@ public class LoginPage extends JFrame {
 							dispose();
 							break;
 						case "Doctor":
+							System.out.print(username+password);
 							JFrame doctorMain;
 							try {
 								doctorMain = new homePageDoctor(username);

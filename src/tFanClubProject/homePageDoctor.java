@@ -28,20 +28,6 @@ public class homePageDoctor extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					String username = null;
-					homePageDoctor frame = new homePageDoctor(username);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
 
 	/**
 	 * Create the frame.
@@ -58,6 +44,7 @@ public class homePageDoctor extends JFrame {
 		contentPane.setLayout(null);
 		homePageDoctorController docCon = new homePageDoctorController();
 		doctorID = docCon.getDoctorID(username);
+		System.out.print(doctorID);
 
 		textFieldPname = new JTextField();
 		textFieldPname.setText("Patient Name");
@@ -123,6 +110,7 @@ public class homePageDoctor extends JFrame {
 				int id = 0;
 				if (selectedRow >= 0) {
 					String patientId = table_1.getValueAt(selectedRow, 0).toString();
+
 					try {
 						id = Integer.parseInt(patientId);
 					} catch (Exception f) {
@@ -156,8 +144,8 @@ public class homePageDoctor extends JFrame {
 		btnAllPatients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-//					ResultSet rs = homePageDoctorController.getAllPatients();
-					table_1.setModel(homePageDoctorController.getAllPatients());
+					System.out.println(doctorID);
+					table_1.setModel(homePageDoctorController.getAllPatients(doctorID));
 
 				} catch (Exception f) {
 					f.printStackTrace();

@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.sql.*;
+import java.util.Random;
 
 public class doctorInfo extends JFrame {
 
@@ -29,14 +30,10 @@ public class doctorInfo extends JFrame {
 	private JTable table_2;
 	private doctorInfoController doctorInfoController;
 
-//	private doctorInfoController doctorInfoController;
-
 	private int rowsCount;
 
 	public void loadTable() {
 		try {
-//			doctorInfoController doc1 = new doctorInfoController();
-
 			table_2.setModel(doctorInfoController.getPatientInfo(patientId));
 			rowsCount = table_2.getRowCount();
 		} catch (Exception f) {
@@ -123,6 +120,7 @@ public class doctorInfo extends JFrame {
 		btnUpdate.setBounds(467, 190, 89, 23);
 		contentPane.add(btnUpdate);
 		btnUpdate.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				if (table_2.isEditing()) {
 					table_2.getCellEditor().stopCellEditing();
@@ -135,6 +133,7 @@ public class doctorInfo extends JFrame {
 					String dosage = table_2.getValueAt(table_2.getRowCount() - 1, 2).toString();
 					if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
 						try {
+
 							String result = doctorInfoController.addPrescription(patientId, datePrescribed, medication,
 									doctorID, dosage);
 

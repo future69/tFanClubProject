@@ -10,37 +10,15 @@ import javax.swing.table.TableModel;
 
 public class doctorInfoController {
 
-	/* Connection code */
-//	private Connection connection;
-
-//	public doctorInfoController() {
-	// Establish connection with the database
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			connection = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//		}
-//	}
-//
-//	public static Connection dbConnector() {
-//
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//			return conn;
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//			return null;
-//		}
-//	}
-
 	public String addPrescription(int patientId, String datePrescribed, String medication, int docID, String dosage)
 			throws SQLException {
 		Doctor doc1 = new Doctor();
-		int result = doc1.addPrescription(patientId, datePrescribed, medication, docID, dosage);
+		String token = doc1.addPrescription(patientId, datePrescribed, medication, docID, dosage);
+
+		// getpatientinfo(patientid)
+		// get email address
+		// send email
+
 		return null;
 
 	}
@@ -70,4 +48,10 @@ public class doctorInfoController {
 		return doctorId;
 	}
 
+	public int updateToken(int patientId) throws SQLException {
+		Doctor doc1 = new Doctor();
+		int response = doc1.updateToken(patientId);
+		return response;
+
+	}
 }
