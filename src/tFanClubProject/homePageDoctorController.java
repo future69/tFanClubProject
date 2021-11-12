@@ -1,15 +1,7 @@
 package tFanClubProject;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 public class homePageDoctorController {
@@ -37,7 +29,7 @@ public class homePageDoctorController {
 		return username;
 	}
 
-	public TableModel getAllPatients(int doctorID) throws SQLException {
+	public static TableModel getAllPatients(int doctorID) throws SQLException {
 		Doctor doc1 = new Doctor();
 		TableModel username = doc1.getAllPatients(doctorID);
 		return username;

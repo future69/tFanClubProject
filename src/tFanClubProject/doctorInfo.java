@@ -1,24 +1,22 @@
 package tFanClubProject;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
-import net.proteanit.sql.DbUtils;
-
-import javax.swing.JTextField;
-import java.awt.Font;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.sql.*;
-import java.util.Random;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class doctorInfo extends JFrame {
 
@@ -119,6 +117,22 @@ public class doctorInfo extends JFrame {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setBounds(467, 190, 89, 23);
 		contentPane.add(btnUpdate);
+		
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				homePageDoctor homepage = null;
+				try {
+					homepage = new homePageDoctor(username);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				homepage.setVisible(true);
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(493, 24, 89, 23);
+		contentPane.add(btnNewButton);
 		btnUpdate.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -126,29 +140,41 @@ public class doctorInfo extends JFrame {
 					table_2.getCellEditor().stopCellEditing();
 
 				}
+				
+			
 				if (rowsCount < table_2.getRowCount()) {
-					String[] data = new String[table_2.getRowCount()];
-					String datePrescribed = table_2.getValueAt(table_2.getRowCount() - 1, 0).toString();
-					String medication = table_2.getValueAt(table_2.getRowCount() - 1, 1).toString();
-					String dosage = table_2.getValueAt(table_2.getRowCount() - 1, 2).toString();
-					if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
-						try {
-
-							String result = doctorInfoController.addPrescription(patientId, datePrescribed, medication,
-									doctorID, dosage);
-
-							table_2.setModel(doctorInfoController.getPrescription(patientId, ""));
-							JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",
-									JOptionPane.INFORMATION_MESSAGE);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+					ArrayList<String> datePrescribedArray = new ArrayList<String>();
+					ArrayList<String> medicationArray = new ArrayList<String>();
+					ArrayList<String> dosageArray = new ArrayList<String>();
+					
+					for(int row = rowsCount+1;  row <= table_2.getRowCount(); row++) {
+						String datePrescribed = table_2.getValueAt(row - 1, 0).toString();
+						String medication = table_2.getValueAt(row - 1, 1).toString();
+						String dosage = table_2.getValueAt(row - 1, 2).toString();
+						if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
+							
+							datePrescribedArray.add(table_2.getValueAt(row - 1, 0).toString());
+							medicationArray.add(table_2.getValueAt(row - 1, 1).toString());
+							dosageArray.add(table_2.getValueAt(row - 1, 2).toString());
 						}
-
-					} else {
-						JOptionPane.showMessageDialog(null, "Please fill both fields!", "Error",
-								JOptionPane.ERROR_MESSAGE);
+						else {
+							JOptionPane.showMessageDialog(null, "Please fill both fields!", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
+					try {
+						String result = doctorInfoController.addPrescription(patientId, datePrescribedArray, medicationArray,
+								doctorID, dosageArray);
+
+						table_2.setModel(doctorInfoController.getPrescription(patientId, ""));
+						
+						JOptionPane.showMessageDialog(null, "Prescription updated successfully", "Message",
+								JOptionPane.INFORMATION_MESSAGE);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+						
 				} else {
 					JOptionPane.showMessageDialog(null, "Please add the row first!", "Error",
 							JOptionPane.ERROR_MESSAGE);

@@ -1,19 +1,22 @@
 package tFanClubProject;
 
-import java.awt.EventQueue;
-
-import javax.swing.border.EmptyBorder;
-
-import net.proteanit.sql.DbUtils;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.sql.*;
-import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class homePageDoctor extends JFrame {
 
@@ -52,7 +55,7 @@ public class homePageDoctor extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-
+					System.out.println(doctorID);
 					table_1.setModel(homePageDoctorController.getPatient(textFieldPname.getText()));
 				} catch (Exception f) {
 					f.printStackTrace();
@@ -74,9 +77,13 @@ public class homePageDoctor extends JFrame {
 		lblPname.setBounds(92, 141, 79, 30);
 		contentPane.add(lblPname);
 
-		JButton btnAllPatients = new JButton("All Patients");
-		btnAllPatients.setBounds(198, 83, 117, 30);
-		contentPane.add(btnAllPatients);
+//		JButton btnAllPatients = new JButton("All Patients");
+//		btnAllPatients.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+//		btnAllPatients.setBounds(198, 75, 117, 30);
+//		contentPane.add(btnAllPatients);
 
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
@@ -141,23 +148,19 @@ public class homePageDoctor extends JFrame {
 		btnView.setBounds(386, 144, 89, 23);
 		contentPane.add(btnView);
 
-		btnAllPatients.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					System.out.println(doctorID);
-					table_1.setModel(homePageDoctorController.getAllPatients(doctorID));
-
-				} catch (Exception f) {
-					f.printStackTrace();
-				}
+//		btnAllPatients.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//					System.out.println(doctorID);
+//					table_1.setModel(homePageDoctorController.getAllPatients(doctorID));
+//
+//				} catch (Exception f) {
+//					f.printStackTrace();
+//				}
 
 				// Check null
 				if (textFieldPname.getText().isEmpty()) {
 					lblProblem.setText("Please enter Patient Name");
 				}
-
-			}
-
-		});
-	}
+		}
 }
