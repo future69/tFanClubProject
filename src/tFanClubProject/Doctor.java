@@ -18,7 +18,7 @@ public class Doctor {
 			PreparedStatement pst = null;
 			ResultSet response = null;
 			try {
-				String query = " SELECT * FROM Patient where username=?";
+				String query = " SELECT * FROM Patient where patientID=?";
 				pst = con.prepareStatement(query);
 				pst.setString(1, username);
 				response = pst.executeQuery();
@@ -179,7 +179,7 @@ public class Doctor {
 		if (con != null) {
 			String query = " INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage,token) "
 					+ " VALUES(?,?,?,?,?,?,?)";
-			PreparedStatement pst = con.prepareStatement(query);
+			PreparedStatement pst = con.prepareStatement(query);  
 			pst.setString(1, datePrescribed);
 			pst.setInt(2, patientId);
 			pst.setString(3, medication);
