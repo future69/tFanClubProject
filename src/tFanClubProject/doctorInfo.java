@@ -173,7 +173,7 @@ public class doctorInfo extends JFrame {
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
+				    	}
 						
 				} else {
 					JOptionPane.showMessageDialog(null, "Please add the row first!", "Error",
