@@ -118,6 +118,7 @@ public class doctorInfo extends JFrame {
 		});
 		btnAdd.setBounds(368, 190, 89, 23);
 		contentPane.add(btnAdd);
+	
 
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setBounds(467, 190, 89, 23);
@@ -135,6 +136,9 @@ public class doctorInfo extends JFrame {
 					String dosage = table_2.getValueAt(table_2.getRowCount() - 1, 2).toString();
 					if (!datePrescribed.isEmpty() && !medication.isEmpty() && !dosage.isEmpty()) {
 						try {
+							
+							
+							
 							String result = doctorInfoController.addPrescription(patientId, datePrescribed, medication,
 									doctorID, dosage);
 
