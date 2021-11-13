@@ -119,7 +119,7 @@ public class updateStatusPharmacist extends JFrame {
 						comboBoxStatus.setSelectedIndex(comboBoxValue);
 						lblMessage.setText(null);
 					} catch (Exception f) {
-						lblMessage.setText("No such prescription ID");
+						lblMessage.setText("No such token");
 					}
 				}
 				
