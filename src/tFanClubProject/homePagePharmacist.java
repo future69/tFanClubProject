@@ -100,7 +100,7 @@ public class homePagePharmacist extends JFrame {
 		contentPane.add(btnLogOut, "cell 8 1,growx,aligny bottom");
 		
 		JLabel lblPrescriptions = new JLabel("Existing Prescriptions : ");
-		contentPane.add(lblPrescriptions, "cell 0 4");
+		contentPane.add(lblPrescriptions, "cell 0 4,alignx right");
 	
 		
 		JLabel lblSearchPresResult = new JLabel("");

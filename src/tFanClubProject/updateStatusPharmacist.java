@@ -64,8 +64,8 @@ public class updateStatusPharmacist extends JFrame {
 		lblHeader.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		contentPane.add(lblHeader, "cell 0 0");
 		
-		JLabel lblSearchPrescription = new JLabel("Search Prescription : ");
-		contentPane.add(lblSearchPrescription, "cell 0 3,alignx trailing");
+		JLabel lblSearchToken = new JLabel("Search Token : ");
+		contentPane.add(lblSearchToken, "cell 0 3,alignx trailing");
 		
 		JLabel lblMessage = new JLabel("");
 		lblMessage.setForeground(Color.RED);
@@ -114,12 +114,12 @@ public class updateStatusPharmacist extends JFrame {
 				
 				else {
 					try {
-						int presID = Integer.parseInt(textFieldSearchPrescription.getText());
-						retrievePrescriptionInfo(presID);
+						String token = textFieldSearchPrescription.getText();
+						retrievePrescriptionInfo(token);
 						comboBoxStatus.setSelectedIndex(comboBoxValue);
 						lblMessage.setText(null);
 					} catch (Exception f) {
-						lblMessage.setText("No such prescription ID");
+						lblMessage.setText("No such token");
 					}
 				}
 				
@@ -137,7 +137,7 @@ public class updateStatusPharmacist extends JFrame {
 				String dosage = textFieldDosage.getText();
 				
 				if (textFieldSearchPrescription.getText().isBlank()) {
-					lblMessage.setText("Please enter a prescription ID");
+					lblMessage.setText("Please enter a prescription token");
 				} 
 				
 				else if(date.isBlank()) {
@@ -197,14 +197,14 @@ public class updateStatusPharmacist extends JFrame {
 	}
 	
 	
-	public void retrievePrescriptionInfo(int presID) {
+	public void retrievePrescriptionInfo(String token) {
 		//Clears previous values from textbox
 		textFieldDateDispensed.setText(null);
 		textFieldMedicationName.setText(null);
 		textFieldDosage.setText(null);
 		
 		updateStatusPharmacistController con = new updateStatusPharmacistController();
-		String[] info = con.passPrescriptionInfo(presID);
+		String[] info = con.passPrescriptionInfo(token);
 		textFieldDateDispensed.setText(info[1]);
 		textFieldMedicationName.setText(info[3]);
 		textFieldDosage.setText(info[4]);

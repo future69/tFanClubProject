@@ -79,13 +79,13 @@ public class Pharmacist
 	}
 	
 	//Get prescription info
-	public String[] retrievePrescriptionStatus (int presNum) {
+	public String[] retrievePrescriptionStatus (String token) {
 		String prescriptionInfo[] = new String[5];
 		try {
 			connection = dbConnector();
-			String query2 = "SELECT dateDispensed , presStatus, medicationName, dosage FROM Prescription where presNum=?";
+			String query2 = "SELECT dateDispensed , presStatus, medicationName, dosage FROM Prescription where token=?";
 			PreparedStatement pst2 = connection.prepareStatement(query2);
-			pst2.setInt(1, presNum);
+			pst2.setString(1, token);
 			//This gets the values back one by one from the database
 			ResultSet rs2 = pst2.executeQuery();
 			while(rs2.next()) {
@@ -141,13 +141,13 @@ public class Pharmacist
 		List<String> prescriptionInfo = new ArrayList<String>();
 		try {
 			connection = dbConnector();
-			String query2 = "SELECT presNum FROM Prescription where patientID=?";
+			String query2 = "SELECT token FROM Prescription where patientID=?";
 			PreparedStatement pst2 = connection.prepareStatement(query2);
 			pst2.setInt(1, patientID);
 			//This gets the values back one by one from the database
 			ResultSet rs2 = pst2.executeQuery();
 			while(rs2.next()) {
-				prescriptionInfo.add(rs2.getString("presNum"));
+				prescriptionInfo.add(rs2.getString("token"));
 			}
 			if (prescriptionInfo == null ) {
 				return null;

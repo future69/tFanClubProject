@@ -5,11 +5,11 @@ public class updateStatusPharmacistController {
 	Pharmacist user = new Pharmacist();
 
 	//Get info to update the pres status
-	public String[] passPrescriptionInfo (int presNum) {
+	public String[] passPrescriptionInfo (String token) {
 		
 		String[] result = null;
 		
-		result  = user.retrievePrescriptionStatus(presNum);
+		result  = user.retrievePrescriptionStatus(token);
 		
 		return result;
 	}

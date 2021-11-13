@@ -253,7 +253,7 @@ public class addUserAdmin extends JFrame {
 			}
 		});
 
-		tabbedPane.addTab("Update", null, panelUpdate, null);
+		tabbedPane.addTab("View/Update", null, panelUpdate, null);
 		panelUpdate.setLayout(new MigLayout("", "[][][][][][][grow][grow][grow][]", "[][][][][][][]"));
 		
 		JLabel lblSelectUser = new JLabel("User Type : ");
