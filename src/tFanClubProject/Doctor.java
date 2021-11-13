@@ -1,45 +1,15 @@
 package tFanClubProject;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
 import net.proteanit.sql.DbUtils;
 
 public class Doctor {
-
-//	Connection conn;
-//
-//	public Doctor() {
-//
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//			conn = null;
-//		}
-//	}
-//	public static Connection dbConnector() {
-//		 
-//
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//			// Set this path to where you put your database file in your computer
-//			Connection conn = DriverManager.getConnection("jdbc:sqlite:DatabaseFiles/userInfo_3.db");
-//			return conn;
-//		} catch (Exception e) {
-//			JOptionPane.showMessageDialog(null, e);
-//		}
-//		return null;
-//	}
 
 	// retrieves the patient info
 	public TableModel getPatient(String username) throws SQLException {
@@ -67,14 +37,17 @@ public class Doctor {
 	}
 
 	// retrieves information of all patients
-	public TableModel getAllPatients() throws SQLException {
+	public TableModel getAllPatients(int doctorID) throws SQLException {
 		Connection con = ConnectDatabase.getConnection();
 		if (con != null) {
 			PreparedStatement pst = null;
 			ResultSet response = null;
 			try {
-				String query = " SELECT * FROM Patient";
+				String query = " SELECT Patient.patientID, patientFName,patientLName " + "FROM Patient "
+						+ " INNER JOIN Doctor " + "ON Patient.patientID = Doctor.patientID "
+						+ " WHERE Doctor.doctorID = ?";
 				pst = con.prepareStatement(query);
+				pst.setInt(1, doctorID);
 				response = pst.executeQuery();
 				return DbUtils.resultSetToTableModel(response);
 			} catch (SQLException e) {
@@ -97,9 +70,9 @@ public class Doctor {
 			PreparedStatement pst = null;
 			ResultSet response = null;
 			try {
-				String query = " SELECT datePrescribed AS DatePrescribed, medicationName AS Medication, dosage AS dosage FROM Patient "
-						+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
-						+ "where PATIENT.patientID = ?";
+				String query = " SELECT datePrescribed AS DatePrescribed, medicationName AS Medication, dosage FROM Patient "
+						+ " INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
+						+ " where PATIENT.patientID = ?";
 				pst = con.prepareStatement(query);
 				pst.setInt(1, patientId);
 				response = pst.executeQuery();
@@ -114,6 +87,29 @@ public class Doctor {
 		}
 		return null;
 	}
+	// retrieves the information of patient by patient id
+		public TableModel getPatientEmail(int patientId) throws SQLException {
+			Connection con = ConnectDatabase.getConnection();
+			if (con != null) {
+				PreparedStatement pst = null;
+				ResultSet response = null;
+				try {
+					String query = " Select patientEmail, patientFName FROM Patient "
+							+ " where PATIENT.patientID = ?";
+					pst = con.prepareStatement(query);
+					pst.setInt(1, patientId);
+					response = pst.executeQuery();
+					return DbUtils.resultSetToTableModel(response);
+				} catch (SQLException e) {
+					System.out.println(e);
+				} finally {
+					if (pst != null) {
+						pst.close();
+					}
+				}
+			}
+			return null;
+		}
 
 	// retrieves the patient's fullname
 	public String getPatientName(int patientId) throws SQLException {
@@ -153,8 +149,8 @@ public class Doctor {
 			ResultSet response = null;
 			try {
 				String query = " SELECT datePrescribed AS datePrescribed, medicationName AS medication, dosage AS dosage FROM Patient "
-						+ "INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
-						+ "where PATIENT.patientID = ? AND Prescription.medicationName LIKE ?";
+						+ " INNER JOIN Prescription ON PATIENT.patientID = PRESCRIPTION.patientID "
+						+ " where PATIENT.patientID = ? AND Prescription.medicationName LIKE ?";
 				pst = con.prepareStatement(query);
 				pst.setInt(1, patientId);
 				pst.setString(2, "%" + prescriptionName + "%");
@@ -174,13 +170,15 @@ public class Doctor {
 		return null;
 	}
 
+
 	// adds new prescription of the patient
-	public int addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage)
+	public String addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage, String token)
 			throws SQLException {
+		// generate token
 		Connection con = ConnectDatabase.getConnection();
 		if (con != null) {
-			String query = "INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage)"
-					+ "VALUES(?,?,?,?,?,?)";
+			String query = " INSERT INTO Prescription(datePrescribed,patientID,medicationName,presStatus,doctorID,dosage,token) "
+					+ " VALUES(?,?,?,?,?,?,?)";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, datePrescribed);
 			pst.setInt(2, patientId);
@@ -188,11 +186,14 @@ public class Doctor {
 			pst.setString(4, "Pending");
 			pst.setInt(5, doctorID);
 			pst.setString(6, dosage);
-			int response = pst.executeUpdate();
+			pst.setString(7, token);
+			pst.executeUpdate();
 			pst.close();
-			return response;
+			return token;
 		}
-		return -1;
+
+		return null;
+
 	}
 
 	// For homepagePharmacist
@@ -201,7 +202,7 @@ public class Doctor {
 		int doctorID = 0;
 		Connection con = ConnectDatabase.getConnection();
 		if (con != null) {
-			String query = "SELECT doctorID FROM Doctor where username = ?";
+			String query = " SELECT doctorID FROM Doctor where username = ?";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1, username);
 
@@ -218,5 +219,32 @@ public class Doctor {
 		return doctorID;
 
 	}
+
+	public int updateToken(int patientId) throws SQLException {
+		Connection con = ConnectDatabase.getConnection();
+		if (con != null) {
+			PreparedStatement pst = null;
+			int response = -1;
+			try {
+				String query = " UPDATE Prescription " + " SET token = hex(randomblob(16)) "
+						+ " WHERE patientID = ? AND presStatus = 'Pending'";
+				pst = con.prepareStatement(query);
+				pst.setInt(1, patientId);
+				response = pst.executeUpdate();
+				return (response);
+
+			} catch (SQLException e) {
+				System.out.println(e);
+			} finally {
+				if (pst != null) {
+					pst.close();
+				}
+			}
+
+		}
+		return -1;
+	}
+	
+	
 
 }

@@ -89,40 +89,46 @@ public class viewPrescription extends JFrame
 		contentPane.add(btnHome, "cell 20 2,alignx left,aligny top");
 		
 		
-		viewPrescriptionController vPC = new viewPrescriptionController(); 
+		getTable(accountUsername, prescriptionID);
 		
-		// User Info label
-		String fullName = vPC.passPatientFullName(username);
-		JLabel patientLabel = new JLabel("Patient: ");
-		contentPane.add(patientLabel, "flowx,cell 9 2");
-		JLabel patientName = new JLabel(fullName);
-		contentPane.add(patientName, "cell 9 2");
-		
-		
-		String [] details = vPC.getInfo(username, prescriptionID);
-		JLabel dateDispensedL = new JLabel("Date dispensed:");
-		contentPane.add(dateDispensedL, "flowx,cell 9 3");
-		
-		JLabel statusL = new JLabel("Status: ");
-		contentPane.add(statusL, "flowx,cell 9 4");
-		
-		
-		// data table
-		String [] columnNames = {"Medicine", "Dosage"};
-		String [][] data = vPC.getPrescription(accountUsername, prescriptionID);
-		
-		table = new JTable(data, columnNames);
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		contentPane.add (scrollPane, "flowx,cell 9 13");
-		JLabel dateDispensed = new JLabel(details[0]);
-		contentPane.add(dateDispensed, "cell 9 3");
-		JLabel status = new JLabel(details[1]);
-		contentPane.add(status, "cell 9 4");
-		
+	}
+	
+	public void getTable(String accountUsername, int prescriptionID)
+	{
+
+
+			viewPrescriptionController vPC = new viewPrescriptionController(); 
+			
+			// User Info label
+			String fullName = vPC.passPatientFullName(accountUsername);
+			JLabel patientLabel = new JLabel("Patient: ");
+			contentPane.add(patientLabel, "flowx,cell 9 2");
+			JLabel patientName = new JLabel(fullName);
+			contentPane.add(patientName, "cell 9 2");
+			
+			
+			String [] details = vPC.getInfo(accountUsername, prescriptionID);
+			JLabel dateDispensedL = new JLabel("Date dispensed:");
+			contentPane.add(dateDispensedL, "flowx,cell 9 3");
+			
+			JLabel statusL = new JLabel("Status: ");
+			contentPane.add(statusL, "flowx,cell 9 4");
+			// data table
+	
+			String [] columnNames = {"Medicine", "Dosage"};
+			String [][] data = vPC.getPrescription(accountUsername, prescriptionID);
+			
+			table = new JTable(data, columnNames);
+			
+			table.getColumnModel().getColumn(0).setPreferredWidth(100);
+			table.getColumnModel().getColumn(1).setPreferredWidth(100);
+			
+			JScrollPane scrollPane = new JScrollPane(table);
+			contentPane.add (scrollPane, "flowx,cell 9 13");
+			JLabel dateDispensed = new JLabel(details[0]);
+			contentPane.add(dateDispensed, "cell 9 3");
+			JLabel status = new JLabel(details[1]);
+			contentPane.add(status, "cell 9 4");
 	}
 
 }

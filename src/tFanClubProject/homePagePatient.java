@@ -97,7 +97,7 @@ public class homePagePatient extends JFrame {
 
 						if(patientController.checkPrescription(username, prescriptionID) == false)
 						{
-							JOptionPane.showMessageDialog(null, "The prescription ID entered do not belong to you or doesn't exist.");	
+							JOptionPane.showMessageDialog(null, "The prescription ID entered does not belong to you or doesn't exist.");	
 						}
 						else 
 						{
