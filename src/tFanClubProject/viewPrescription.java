@@ -118,7 +118,15 @@ public class viewPrescription extends JFrame
 			String [] columnNames = {"Medicine", "Dosage"};
 			String [][] data = vPC.getPrescription(accountUsername, prescriptionID);
 			
-			table = new JTable(data, columnNames);
+			table = new JTable(data, columnNames){
+
+		        @Override
+		        public boolean isCellEditable(int row, int column)
+		        {
+		            // make read only fields except column 0,13,14
+		            return column == 0 || column == 13 || column == 14;
+		        }
+		    };;
 			
 			table.getColumnModel().getColumn(0).setPreferredWidth(100);
 			table.getColumnModel().getColumn(1).setPreferredWidth(100);
