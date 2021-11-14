@@ -157,9 +157,9 @@ public class updateStatusPharmacist extends JFrame {
 						tryDate = Integer.parseInt(textFieldDateDispensed.getText());
 						if(tryDate != null) {
 							String comboValue = comboBoxStatus.getSelectedItem().toString();
-							presNum = Integer.valueOf(textFieldSearchPrescription.getText());
+							String token = textFieldSearchPrescription.getText();
 							updateStatusPharmacistController presCon = new updateStatusPharmacistController();
-							presCon.updatePrescriptionInfo(presNum, date, comboValue, pharmaID);
+							presCon.updatePrescriptionInfo(token, date, comboValue, pharmaID);
 							lblMessage.setText("Successfully Updated");
 							resetTextfields();
 								

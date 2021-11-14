@@ -17,12 +17,12 @@ public class doctorInfoController {
 	public void sendEmail(String title, String to, String body) {
 
 		// Sender's email ID needs to be mentioned
-		String from = "sgxgamers@gmail.com";
-		String pass = "zainul1029";
+		String from = "tfanclub369@gmail.com";
+		String pass = "tfanclub123";
 		// Recipient's email ID needs to be mentioned.
 
 		// REMOVE THIS
-		to = "peepoo2425@gmail.com";
+		to = "tfanclub369@gmail.com";
 
 		String host = "smtp.gmail.com";
 
