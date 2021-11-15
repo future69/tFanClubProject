@@ -1,6 +1,6 @@
 package tFanClubProject;
 
-import java.awt.Color;
+	import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +50,6 @@ public class homePageDoctor extends JFrame {
 		System.out.print(doctorID);
 
 		textFieldPname = new JTextField();
-		textFieldPname.setText("Patient Name");
 		textFieldPname.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -63,7 +62,7 @@ public class homePageDoctor extends JFrame {
 			}
 		});
 		textFieldPname.setFont(new Font("Courier New", Font.ITALIC, 11));
-		textFieldPname.setBounds(172, 141, 179, 30);
+		textFieldPname.setBounds(179, 141, 179, 30);
 		contentPane.add(textFieldPname);
 		textFieldPname.setColumns(10);
 
@@ -72,9 +71,9 @@ public class homePageDoctor extends JFrame {
 		lblheader.setFont(new Font("Verdana", Font.BOLD, 24));
 		contentPane.add(lblheader);
 
-		JLabel lblPname = new JLabel("Search :");
+		JLabel lblPname = new JLabel("Search patient ID:");
 		lblPname.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblPname.setBounds(92, 141, 79, 30);
+		lblPname.setBounds(10, 141, 179, 30);	
 		contentPane.add(lblPname);
 
 //		JButton btnAllPatients = new JButton("All Patients");
@@ -145,7 +144,7 @@ public class homePageDoctor extends JFrame {
 				}
 			}
 		});
-		btnView.setBounds(386, 144, 89, 23);
+		btnView.setBounds(378, 149, 89, 23);
 		contentPane.add(btnView);
 
 //		btnAllPatients.addActionListener(new ActionListener() {
