@@ -172,7 +172,7 @@ public class Doctor {
 
 
 	// adds new prescription of the patient
-	public String addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage, String token)
+	public void addPrescription(int patientId, String datePrescribed, String medication, int doctorID, String dosage, String token)
 			throws SQLException {
 		// generate token
 		Connection con = ConnectDatabase.getConnection();
@@ -189,11 +189,8 @@ public class Doctor {
 			pst.setString(7, token);
 			pst.executeUpdate();
 			pst.close();
-			return token;
+			
 		}
-
-		return null;
-
 	}
 
 	// For homepagePharmacist

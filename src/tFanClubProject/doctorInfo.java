@@ -163,7 +163,7 @@ public class doctorInfo extends JFrame {
 						}
 					}
 					try {
-						String result = doctorInfoController.addPrescription(patientId, datePrescribedArray, medicationArray,
+						doctorInfoController.addPrescription(patientId, datePrescribedArray, medicationArray,
 								doctorID, dosageArray);
 
 						table_2.setModel(doctorInfoController.getPrescription(patientId, ""));

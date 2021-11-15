@@ -87,7 +87,7 @@ public class doctorInfoController {
 
 	}
 
-	public String addPrescription(int patientId, ArrayList<String> datePrescribedArrayList,
+	public void addPrescription(int patientId, ArrayList<String> datePrescribedArrayList,
 			ArrayList<String> medicationArrayList, int docID, ArrayList<String> dosageArrayList) throws SQLException {
 		String token = generateToken(10);
 
@@ -116,8 +116,6 @@ public class doctorInfoController {
 				+ "\n\nYours Sincerely,\ntFanClub Hospital";
 
 		sendEmail(title, to, body);
-
-		return null;
 
 	}
 
