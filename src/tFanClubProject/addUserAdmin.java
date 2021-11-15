@@ -232,7 +232,7 @@ public class addUserAdmin extends JFrame {
 								lblEmail.setEnabled(false);
 								textFieldDOB.setEnabled(false);
 								textFieldEmail.setEnabled(false);
-								lblFirstName.setText("Pharmacy Name : ");
+								lblFirstName.setText("Pharmacist Name : ");
 								lblLastName.setEnabled(false);
 								lblPatientID.setEnabled(false);
 								textFieldPatientID.setEnabled(false);

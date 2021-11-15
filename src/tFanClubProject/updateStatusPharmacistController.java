@@ -15,8 +15,8 @@ public class updateStatusPharmacistController {
 	}
 	
 	//Update the prescription table
-	public boolean updatePrescriptionInfo(int presNum, String dateDispensed, String presStatus, String pharmaID) {
-		if (user.updatePrescriptionInfo(presNum, dateDispensed, presStatus, pharmaID)) {
+	public boolean updatePrescriptionInfo(String token, String dateDispensed, String presStatus, String pharmaID) {
+		if (user.updatePrescriptionInfo(token, dateDispensed, presStatus, pharmaID)) {
 			return true;
 		} else {
 			return false;

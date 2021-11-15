@@ -147,12 +147,21 @@ public class viewPrescriptionList extends JFrame
 				String [] columnNames = {"Prescription ID", "Prescribed date", "Prescribed status"};
 				String [][] data = vPLC.getPrescriptions(accountUsername);
 				
-				table = new JTable(data, columnNames);
+				table = new JTable(data, columnNames){
+
+			        @Override
+			        public boolean isCellEditable(int row, int column)
+			        {
+			            // make read only fields except column 0,13,14
+			            return column == 0 || column == 13 || column == 14;
+			        }
+			    };
 				
 				table.getColumnModel().getColumn(0).setPreferredWidth(100);
 				table.getColumnModel().getColumn(1).setPreferredWidth(100);
-				
+			
 				JScrollPane scrollPane = new JScrollPane(table);
+				scrollPane.setEnabled(false);
 				contentPane.add (scrollPane, "flowx,cell 9 10");
 				JLabel lblNewLabel_2 = new JLabel(fullName);
 				contentPane.add(lblNewLabel_2, "cell 9 2 1 2");

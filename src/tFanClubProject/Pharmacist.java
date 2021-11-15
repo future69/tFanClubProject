@@ -110,20 +110,20 @@ public class Pharmacist
 	}
 	
 	//Updates Prescription table
-	public boolean updatePrescriptionInfo (int presNum, String dateDispensed, String presStatus, String pharmaID) {
+	public boolean updatePrescriptionInfo (String token, String dateDispensed, String presStatus, String pharmaID) {
 		try {
 		connection = dbConnector();
 		
 		int id = Integer.valueOf(pharmaID);
 
 		//Updates data in Pharmacist
-		String query2 = "UPDATE Prescription SET dateDispensed=? , presStatus =? , pharmacistID = ? WHERE presNum=?";
+		String query2 = "UPDATE Prescription SET dateDispensed=? , presStatus =? , pharmacistID = ? WHERE token=?";
 		PreparedStatement pst2 = connection.prepareStatement(query2);
 		
 		pst2.setString(1, dateDispensed);
 		pst2.setString(2, presStatus);
 		pst2.setInt(3, id);
-		pst2.setInt(4, presNum);
+		pst2.setString(4, token);
 		pst2.executeUpdate();
 		pst2.close();
 		
